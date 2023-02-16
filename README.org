@@ -1,0 +1,9 @@
+* Emacs Configuration
+
+Some slides written in [[https://quarto.org][Quarto]] for showing how to setup [[https://www.gnu.org/software/emacs/][Emacs]] (I should probably have written them in [[https://orgmode.org][Org Mode]] but
+haven't the time to suss out a quick way of rendering and uploading to GitHub Pages).
+
+* Using these slides
+
+This work is licensed under a [[https://creativecommongs.org/licenses/by-sa/4.0/][Creative Commons Attribution-ShareAlike 4.0 International License]] (see the [[./LICENSE][LICENSE]] file in
+this repository).

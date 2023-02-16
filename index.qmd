@@ -1,0 +1,291 @@
+---
+title: "Emacs Configuration"
+author: "Neil Shephard"
+email: "n.shephard@sheffield.ac.uk"
+from: markdown+emoji
+format:
+  revealjs:
+    theme: sky
+    slide-number: true
+    show-slide-number: speaker
+    chalkboard: true
+    # embed-resources: true
+    # standalone: true
+footer: "[**ns-rse.github.io/emacs-config/**](https://ns-rse.github.io/emacs-config/#/title-slide)"
+---
+
+:::: {.scrollable}
+## Packages
+
+Configure and use various (M)ELPA repositories...
+
+```{.lisp}
+(package-initialize)
+(require 'package)
+
+;; Adding repositories along with priority https://emacs.stackexchange.com/a/2989/10100
+(setq package-archives
+      '(("GNU ELPA"	. "https://elpa.gnu.org/packages/")
+        ("NonGNU ELPA"  . "https://elpa.nongnu.org/nongnu/")
+        ("MELPA Stable" . "https://stable.melpa.org/packages/")
+        ("MELPA"	. "https://melpa.org/packages/"))
+      package-archive-priorities
+      '(("MELPA" . 10)
+        ("GNU ELPA"	. 5)
+        ("NonGNU ELPA"	. 5)
+        ("MELPA Stable"	. 0)))
+;; On some systems we have problems communicating with ELPA (https://emacs.stackexchange.com/a/62210)
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+```
+::::
+
+:::: {.scrollable}
+## Packages
+
+Make life easy for yourself and [`use-package`](https://github.com/jwiegley/use-package)
+
+```{.lisp}
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-and-compile
+  (setq use-package-always-ensure t
+        use-package-expand-minimally t))
+
+;; BASIC CUSTOMISATION
+;; --------------------------------------
+(use-package emacs
+	     :init
+	     (tool-bar-mode -1)
+	     (scroll-bar-mode -1)
+	     (menu-bar-mode 1)
+	     (global-linum-mode t)
+	     (global-hl-line-mode 1)
+	     (savehist-mode 1)
+	     (recentf-mode 1)
+	     (global-auto-revert-mode 1)
+	     :config
+	     ;; Add local lisp for miscellaneous things
+	     (add-to-list 'load-path "~/.config/emacs/lisp/") ; Local LISP
+	     (setq inhibit-startup-message t)    ; hide the startup message
+	     (setq global-visual-line-mode t)    ; Visual line wrap
+	     (setq inhibit-startup-screen t)     ; Disable startup screen
+	     (setq initial-scratch-message "")   ; Make *scratch* buffer blank
+	     (setq confirm-kill-processes nil)   ; Stop confirming the killing of processes
+	     (setq ring-bell-function 'ignore)   ; Disable bell sound
+	     (setq global-auto-revert-non-file-buffers t) ; Update non-file buffers (Dired) when disk changes
+	     (setq use-dialog-box nil)           ; No dialog pop-ups
+	     (setq history-length 100)           ; Mini-buffer history
+	     (setq-default fill-column 120)      ; Reset line-length
+	     (setq undo-limit 320000)            ; Increase the undo history limits
+             (setq vc-follow-symlinks t)         ; open source of symlink maintain vc (https://stackoverflow.com/a/30900018/1444043)
+	     (setq undo-strong-limit 640000)
+             (setq mode-line-compact t)
+	     (setq-default indent-tabs-mode nil)
+	     (setq-default tab-width 4)
+	     (setq-default sh-basic-offset 2)
+	     (setq-default sh-indentation 2)
+	     (setq-default cursor-type 'bar)     ; Line-style cursor similar to other text editors
+	     (setq-default frame-title-format '("%f"))     ; Make window title the buffer name
+	     :bind (("C-c U" . revert-buffer)
+		    ("C-c D" . toggle-debug-on-error)
+		    ;; Org
+		    ("\C-cl" . org-store-link)
+		    ("\C-cc" . org-capture)
+		    ("\C-ca" . org-agenda)
+		    ("\C-cb" . org-iswitchb)
+		    ("C-x p i" . org-org-cliplink) ;; From : https://github.com/rexim/org-cliplink
+		    ;; Magit /code review
+		    ("C-x g" . magit-status)
+		    ("C-c P" . magit-push-current-to-upstream)
+		    ("C-c F" . magit-pull)
+		    ("C-c R" . code-review-forge-pr-at-point))
+	     :hook
+	     ((latex-mode
+	       markdown-mode
+	       org-mode
+	       prog-mode
+	       text-mode) . auto-fill-mode)
+	     (auto-fill-function . do-auto-fill)
+	     (before-save . delete-trailing-whitespace) ;; https://emacs.stackexchange.com/a/40773/10100
+	     (prog-mode-hook . highlight-indent-guides-mode)
+	     )
+```
+::::
+
+:::: {.scrollable}
+## Keybindings
+
+Make life easy install and use [`which-key`](https://github.com/justbur/emacs-which-key) and
+[`helpful`](https://github.com/Wilfred/helpful).
+
+```{.lisp}
+https://github.com/justbur/emacs-which-key
+(use-package which-key
+	     :config (which-key-mode))
+
+;; helpful settings
+;; https://github.com/Wilfred/helpful
+;;
+(use-package helpful
+	     :config
+	     ;; Note that the built-in `describe-function' includes both functions
+	     ;; and macros. `helpful-function' is functions only, so we provide
+	     ;; `helpful-callable' as a drop-in replacement.
+	     (global-set-key (kbd "C-h f") #'helpful-callable)
+	     (global-set-key (kbd "C-h v") #'helpful-variable)
+	     (global-set-key (kbd "C-h k") #'helpful-key)
+	     ;; Lookup the current symbol at point. C-c C-d is a common keybinding
+	     ;; for this in lisp modes.
+	     (global-set-key (kbd "C-c C-d") #'helpful-at-point)
+
+	     ;; Look up *F*unctions (excludes macros).
+	     ;;
+	     ;; By default, C-h F is bound to `Info-goto-emacs-command-node'. Helpful
+	     ;; already links to the manual, if a function is referenced there.
+	     (global-set-key (kbd "C-h F") #'helpful-function)
+
+	     ;; Look up *C*ommands.
+	     ;;
+	     ;; By default, C-h C is bound to describe `describe-coding-system'. I
+	     ;; don't find this very useful, but it's frequently useful to only
+	     ;; look at interactive functions.
+	     (global-set-key (kbd "C-h C") #'helpful-command))
+```
+::::
+
+:::: {.scrollable}
+## Python
+
+In addition to useful to configure various aspects of [Python](https://www.python.org/). The following config enables...
+
+* [pyvenv](https://github.com/jorgenschaefer/pyvenv) - easily switch between Python Virtual Environments.
+* [blacken](https://github.com/pythonic-emacs/blacken) - apply Black formatting on saving Python files.
+* [pytest](https://github.com/wbolster/emacs-python-pytest) - run pytest framework tests from within Emacs.
+* [numpydoc](https://github.com/douglasdavis/numpydoc.el) - easily generate Numpydoc strings for functions/methods.
+* [EIN - Emacs IPython Notebook](https://github.com/millejoh/emacs-ipython-notebook) - Jupyter Notebooks in Emacs.
+* [Flymake ruff](https://github.com/erickgnavar/flymake-ruff) - [Flymake]() extension to run the [ruff](https://github.com/charliermarsh/ruff) linter on the fly.
+```{.lisp}
+
+;; Hide the modeline for inferior python processes
+(use-package inferior-python-mode
+	     :ensure nil
+	     :hook (inferior-python-mode . hide-mode-line-mode))
+
+;; Required to easily switch virtual envs
+;; via the menu bar or with `pyvenv-workon`
+;; Setting the `WORKON_HOME` environment variable points
+;; at where the envs are located. I use miniconda.
+(use-package pyvenv
+	     :ensure t
+	     :config
+	     ;; Setting work on to easily switch between environments
+	     (setenv "WORKON_HOME" (expand-file-name "~/.virtualenvs/"))
+	     ;; Display virtual envs in the menu bar
+	     (setq pyvenv-menu t
+		   venv-byhost
+		   '(("kimura" . "~/.virtualenvs/")
+		     ("fisher" . "~/.virtualenvs/")
+		     ("haldane" . "~/.virtualenvs/")
+		     ("ovh" . "~/.virtualenvs/")
+		     ("alarmpi" . "~/.virtualenvs/")
+		     ("alarmpi-4b" . "~/.virtualenvs/"))
+		   venv-location (cdr
+				  (assoc system-name venv-byhost))
+		   default-venv-byhost
+		   '(("kimura" . "~/.virtualenvs/python3_10")
+		     ("fisher" . "~/.virtualenvs/python3_9")
+		     ("haldane" . "~/.virtualenvs/default")
+		     ("ovh" . "~/.virtualenvs/default")
+		     ("alarmpi" . "~/.virtualenvs/default")
+		     ("alarmpi-4b" . "~/.virtualenvs/default"))
+		   default-venv (cdr
+				 (assoc system-name default-venv-byhost))
+		   python-environment-directory venv-location)
+	     ;; Restart the python process when switching environments
+	     (add-hook 'pyvenv-post-activate-hooks (lambda ()
+						     (pyvenv-restart-python)))
+	     :hook (python-mode . pyvenv-mode))
+
+;; Built-in Python utilities
+(use-package python
+	     :after (pyvenv)
+	     :ensure t
+	     :config
+	     ;; Remove guess indent python message
+	     (setq python-indent-guess-indent-offset-verbose nil
+		   python-shell-interpreter "ipython"
+		   python-shell-interpreter-args "-i --simple-prompt"
+		   ;; python-environment-directory venv-location)
+		   python-environment-directory venv-location)
+	     ;; Use IPython when available or fall back to regular Python
+	     ;; (cond
+	     ;;  ((executable-find "ipython")
+	     ;;   (progn
+	     ;;     (setq python-shell-buffer-name "IPython")
+	     ;;     (setq python-shell-interpreter "ipython")
+	     ;;     (setq python-shell-interpreter-args "-i --simple-prompt")))
+	     ;;  ((executable-find "python3")
+	     ;;   (setq python-shell-interpreter "python3"))
+	     ;;  ((executable-find "python2")
+	     ;;   (setq python-shell-interpreter "python2"))
+	     ;;  (t
+	     ;;   (setq python-shell-interpreter "python")))
+	     :bind (:map python-mode-map
+			 ("C-c p t" . python-pytest-dispatch)
+			 ("C-c p l" . pylint)
+			 ("C-c p n" . numpydoc-generate)
+			 ("C-c p b" . blacken-buffer)
+			 ("C-c p v" . pyvenv-workon)))
+
+;;; https://github.com/wbolster/emacs-python-pytest
+(use-package python-pytest
+	     :after (pyvenv)
+	     :ensure t
+	     :defer 2)
+
+;; https://github.com/pythonic-emacs/blacken
+(use-package blacken
+	     :ensure t
+	     :defer 3
+	     :custom
+	     (blacken-line-length 120)
+	     :hook (python-mode . blacken-mode))
+
+;; https://github.com/erickgnavar/flymake-ruff
+(use-package flymake-ruff
+	     :ensure t
+	     :defer 3)
+
+;; https://github.com/douglasdavis/numpydoc.el
+(use-package numpydoc
+	     :ensure t
+	     :defer t
+	     :after lsp
+	     :custom
+	     (numpydoc-prompt-for-input t)
+	     (numpydoc-insert-examples-block nil)
+	     :bind (:map python-mode-map
+			 ("C-c p n" . numpydoc-generate)))
+
+;; https://github.com/millejoh/emacs-ipython-notebook
+(use-package ein
+	     :ensure t
+	     :defer t)
+
+```
+
+::::
+
+## Language Server Protocol
+
+Two options that leverage Language Server Protocol
+
+* [LSP Mode](https://emacs-lsp.github.io/lsp-mode/)
+* [Eglot](https://joaotavora.github.io/eglot/)
+
+Emacs >= 29.0 includes Eglot.

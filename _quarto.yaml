@@ -1,0 +1,6 @@
+project:
+  type: website
+website:
+  title: "Emacs configuration"
+  site-url: "https://ns-rse.github.io/emacs-config/"
+  description: "Configuring Emacs"
