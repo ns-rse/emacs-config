@@ -646,6 +646,42 @@ Neil Shephard
 <span id="cb4-105"><a href="#cb4-105"></a>         :ensure <span class="kw">t</span></span>
 <span id="cb4-106"><a href="#cb4-106"></a>         :defer <span class="kw">t</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
+<section id="treesitter" class="slide level2 scrollable">
+<h2>Treesitter</h2>
+<p><a href="https://tree-sitter.github.io/tree-sitter/">TreeSitter</a> does some very funky stuff (watch the video on the homepag). Its baked into Emacs 29.0 so I’ve currently got config for working with it as a package (<a href="https://emacs-tree-sitter.github.io/installation/"><code>emacs-tree-sitter</code></a>) and a commented section for work with Emacs 29.0 when I upgrade. Various links for more, I’ve not gone through it in detail and configured properly yet.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource lisp number-lines code-with-copy"><code class="sourceCode commonlisp"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">;;; TREE SITTER CONFIGURATION</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="co">;;; =========================</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="co">;;;</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co">;;; Homepage    : https://emacs-tree-sitter.github.io/installation/</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co">;;; GitHub      : https://github.com/emacs-tree-sitter/elisp-tree-sitter</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="co">;;; Tree-Sitter : https://tree-sitter.github.io/tree-sitter/</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co">;;;</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="co">;;; https://wwwtech.de/articles/2022/dec/emacs-29-install-tree-sitter-parser-modules-with-a-minor-mode</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="co">;;; https://archive.casouri.cc/note/2023/tree-sitter-starter-guide/index.html</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="co">;;; https://archive.casouri.cc/note/2023/tree-sitter-in-emacs-29/index.html</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="co">;;; https://www.reddit.com/r/emacs/comments/r0i031/comment/hlxwhyu/</span></span>
+<span id="cb5-12"><a href="#cb5-12"></a><span class="co">;;;</span></span>
+<span id="cb5-13"><a href="#cb5-13"></a><span class="co">;;; https://mastodon.social/@spaceotter@mastodon.online/109671596235038019</span></span>
+<span id="cb5-14"><a href="#cb5-14"></a><span class="co">;;; https://mastodon.social/@spaceotter@mastodon.online/109774686483526367</span></span>
+<span id="cb5-15"><a href="#cb5-15"></a><span class="co">;;; Extensions</span></span>
+<span id="cb5-16"><a href="#cb5-16"></a><span class="co">;;;</span></span>
+<span id="cb5-17"><a href="#cb5-17"></a><span class="co">;;; https://github.com/erickgnavar/tree-sitter-ispell.el</span></span>
+<span id="cb5-18"><a href="#cb5-18"></a>(<span class="kw">use-package</span> tree-sitter</span>
+<span id="cb5-19"><a href="#cb5-19"></a>         :ensure <span class="kw">t</span></span>
+<span id="cb5-20"><a href="#cb5-20"></a>         :init</span>
+<span id="cb5-21"><a href="#cb5-21"></a>             (global-tree-sitter-mode))</span>
+<span id="cb5-22"><a href="#cb5-22"></a></span>
+<span id="cb5-23"><a href="#cb5-23"></a>(<span class="kw">use-package</span> tree-sitter-langs</span>
+<span id="cb5-24"><a href="#cb5-24"></a>         :hook</span>
+<span id="cb5-25"><a href="#cb5-25"></a>         (tree-sitter-after-on . tree-sitter-hl-mode))</span>
+<span id="cb5-26"><a href="#cb5-26"></a></span>
+<span id="cb5-27"><a href="#cb5-27"></a><span class="co">;; For Emacs 29.0</span></span>
+<span id="cb5-28"><a href="#cb5-28"></a><span class="co">;; https://github.com/renzmann/treesit-auto</span></span>
+<span id="cb5-29"><a href="#cb5-29"></a><span class="co">;; (use-package treesit-auto</span></span>
+<span id="cb5-30"><a href="#cb5-30"></a><span class="co">;;   :ensure t</span></span>
+<span id="cb5-31"><a href="#cb5-31"></a><span class="co">;;   :config</span></span>
+<span id="cb5-32"><a href="#cb5-32"></a><span class="co">;;   (treesit-auto-apply-remap))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
 <section id="language-server-protocol" class="slide level2">
 <h2>Language Server Protocol</h2>
 <p>Two options that leverage Language Server Protocol</p>
@@ -658,482 +694,482 @@ Neil Shephard
 <section id="lsp-mode" class="slide level2 scrollable">
 <h2><a href="https://emacs-lsp.github.io/lsp-mode/">LSP Mode</a></h2>
 <p>Not perfect, haven’t configured R, org-mode support is a work in progress.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource lisp number-lines code-with-copy"><code class="sourceCode commonlisp"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">;;; LSP CONFIGURATION</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co">;;; --------------------------------------</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="co">;;; https://gitlab.com/nathanfurnal/dotemacs/-/snippets/2060535</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co">;;; https://ianyepan.github.io/posts/emacs-ide/</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="co">;; Provides workspaces with file browsing (tree file viewer)</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="co">;; and project management when coupled with `projectile`.</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a>(<span class="kw">use-package</span> treemacs</span>
-<span id="cb5-8"><a href="#cb5-8"></a>         :ensure <span class="kw">t</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a>         :defer <span class="kw">t</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a>         :config</span>
-<span id="cb5-11"><a href="#cb5-11"></a>         (<span class="kw">setq</span> treemacs-no-png-images <span class="kw">t</span></span>
-<span id="cb5-12"><a href="#cb5-12"></a>           treemacs-width <span class="dv">24</span>)</span>
-<span id="cb5-13"><a href="#cb5-13"></a>         :bind (<span class="st">"C-c t"</span> . treemacs))</span>
-<span id="cb5-14"><a href="#cb5-14"></a></span>
-<span id="cb5-15"><a href="#cb5-15"></a></span>
-<span id="cb5-16"><a href="#cb5-16"></a><span class="co">;; Provide LSP-mode for python, it requires a language server.</span></span>
-<span id="cb5-17"><a href="#cb5-17"></a><span class="co">;; I use `lsp-pyright`. Know that you have to `M-x lsp-restart-workspace`</span></span>
-<span id="cb5-18"><a href="#cb5-18"></a><span class="co">;; if you change the virtual environment in an open python buffer.</span></span>
-<span id="cb5-19"><a href="#cb5-19"></a>(<span class="kw">use-package</span> lsp-mode</span>
-<span id="cb5-20"><a href="#cb5-20"></a>         :ensure <span class="kw">t</span></span>
-<span id="cb5-21"><a href="#cb5-21"></a>         :defer <span class="kw">t</span></span>
-<span id="cb5-22"><a href="#cb5-22"></a>         :config</span>
-<span id="cb5-23"><a href="#cb5-23"></a>         (<span class="kw">setq</span> lsp-idle-delay <span class="fl">0.5</span></span>
-<span id="cb5-24"><a href="#cb5-24"></a>           lsp-enable-symbol-highlighting <span class="kw">t</span></span>
-<span id="cb5-25"><a href="#cb5-25"></a>           lsp-pylsp-plugins-pylint-args [<span class="st">"--rcfile=/home/neil/dotfiles/python/.pylintrc"</span>])</span>
-<span id="cb5-26"><a href="#cb5-26"></a>         <span class="co">;; (setq lsp-markdown-server-command remark-language-server)</span></span>
-<span id="cb5-27"><a href="#cb5-27"></a>         <span class="co">;; (lsp-register-custom-settings</span></span>
-<span id="cb5-28"><a href="#cb5-28"></a>         <span class="co">;;  ;; pyls enabled/disabled https://github.com/python-lsp/python-lsp-server/blob/develop/CONFIGURATION.md</span></span>
-<span id="cb5-29"><a href="#cb5-29"></a>         <span class="co">;;  '(;; Enabled</span></span>
-<span id="cb5-30"><a href="#cb5-30"></a>         <span class="co">;;    ("pylsp.plugins.jedi_completion.enabled" t t)</span></span>
-<span id="cb5-31"><a href="#cb5-31"></a>         <span class="co">;;    ("pylsp.plugins.jedi_completion.cache_for" '(pandas, numpy, matplotlib))</span></span>
-<span id="cb5-32"><a href="#cb5-32"></a>         <span class="co">;;    ("pylsp.plugins.jedi_hover.enabled" t t)</span></span>
-<span id="cb5-33"><a href="#cb5-33"></a>         <span class="co">;;    ("pylsp.plugins.jedi_references.enabled" t t)</span></span>
-<span id="cb5-34"><a href="#cb5-34"></a>         <span class="co">;;    ("pylsp.plugins.pyls_black.enabled" t t)</span></span>
-<span id="cb5-35"><a href="#cb5-35"></a>         <span class="co">;;    ("pylsp.plugins.pycodestyle.maxLineLength" nil 120)</span></span>
-<span id="cb5-36"><a href="#cb5-36"></a>         <span class="co">;;    ;; ("pylsp.plugins.pydocstyle.enabled" t t)</span></span>
-<span id="cb5-37"><a href="#cb5-37"></a>         <span class="co">;;    ;; ("pylsp.plugins.pydocstyle.convention" nil 'numpy)</span></span>
-<span id="cb5-38"><a href="#cb5-38"></a>         <span class="co">;;    ("pylsp.plugins.pylint.enabled" t t)</span></span>
-<span id="cb5-39"><a href="#cb5-39"></a>         <span class="co">;;    ;; Disabled (duplicated by flake8)</span></span>
-<span id="cb5-40"><a href="#cb5-40"></a>         <span class="co">;;    ("pylsp.plugins.pycodestyle.enabled" nil t)</span></span>
-<span id="cb5-41"><a href="#cb5-41"></a>         <span class="co">;;    ("pylsp.plugins.mccabe.enabled" nil t)</span></span>
-<span id="cb5-42"><a href="#cb5-42"></a>         <span class="co">;;    ("pylsp.plugins.pyflakes.enabled" nil t)))</span></span>
-<span id="cb5-43"><a href="#cb5-43"></a>         :commands (lsp lsp-deferred)</span>
-<span id="cb5-44"><a href="#cb5-44"></a>         :init (<span class="kw">setq</span> lsp-keymap-prefix <span class="st">"C-c l"</span></span>
-<span id="cb5-45"><a href="#cb5-45"></a>             lsp-bash-highlight-parsing-errors <span class="kw">t</span>)</span>
-<span id="cb5-46"><a href="#cb5-46"></a>         :hook ((python-mode . lsp)</span>
-<span id="cb5-47"><a href="#cb5-47"></a>            (bash-mode . lsp)</span>
-<span id="cb5-48"><a href="#cb5-48"></a>            (dockerfile-mode . lsp)</span>
-<span id="cb5-49"><a href="#cb5-49"></a>            (groovy-mode . lsp)</span>
-<span id="cb5-50"><a href="#cb5-50"></a>            (html-mode . lsp)</span>
-<span id="cb5-51"><a href="#cb5-51"></a>            (latex-mode . lsp)</span>
-<span id="cb5-52"><a href="#cb5-52"></a>            (markdown-mode . lsp)</span>
-<span id="cb5-53"><a href="#cb5-53"></a>            (gfm-mode . lsp)</span>
-<span id="cb5-54"><a href="#cb5-54"></a>            (org-mode . lsp)</span>
-<span id="cb5-55"><a href="#cb5-55"></a>            (R-mode . lsp)</span>
-<span id="cb5-56"><a href="#cb5-56"></a>            (ess-r-mode . lsp)</span>
-<span id="cb5-57"><a href="#cb5-57"></a>            (sh-mode . lsp)</span>
-<span id="cb5-58"><a href="#cb5-58"></a>            (terraform-mode . lsp)))</span>
-<span id="cb5-59"><a href="#cb5-59"></a></span>
-<span id="cb5-60"><a href="#cb5-60"></a><span class="co">;; Provides completion, with the proper backend</span></span>
-<span id="cb5-61"><a href="#cb5-61"></a><span class="co">;; it will provide Python completion.</span></span>
-<span id="cb5-62"><a href="#cb5-62"></a>(<span class="kw">use-package</span> company</span>
-<span id="cb5-63"><a href="#cb5-63"></a>         :ensure <span class="kw">t</span></span>
-<span id="cb5-64"><a href="#cb5-64"></a>         :defer <span class="kw">t</span></span>
-<span id="cb5-65"><a href="#cb5-65"></a>         :diminish</span>
-<span id="cb5-66"><a href="#cb5-66"></a>         :config</span>
-<span id="cb5-67"><a href="#cb5-67"></a>         (<span class="kw">setq</span> company-dabbrev-other-buffers <span class="kw">t</span></span>
-<span id="cb5-68"><a href="#cb5-68"></a>           company-dabbrev-code-other-buffers <span class="kw">t</span>)</span>
-<span id="cb5-69"><a href="#cb5-69"></a>         :hook ((text-mode . company-mode)</span>
-<span id="cb5-70"><a href="#cb5-70"></a>            (prog-mode . company-mode)))</span>
-<span id="cb5-71"><a href="#cb5-71"></a></span>
-<span id="cb5-72"><a href="#cb5-72"></a><span class="co">;; Provides visual help in the buffer</span></span>
-<span id="cb5-73"><a href="#cb5-73"></a><span class="co">;; For example definitions on hover.</span></span>
-<span id="cb5-74"><a href="#cb5-74"></a><span class="co">;; The `imenu` lets me browse definitions quickly.</span></span>
-<span id="cb5-75"><a href="#cb5-75"></a><span class="co">;; https://github.com/emacs-lsp/lsp-ui</span></span>
-<span id="cb5-76"><a href="#cb5-76"></a>(<span class="kw">use-package</span> lsp-ui</span>
-<span id="cb5-77"><a href="#cb5-77"></a>         :ensure <span class="kw">t</span></span>
-<span id="cb5-78"><a href="#cb5-78"></a>         :defer <span class="kw">t</span></span>
-<span id="cb5-79"><a href="#cb5-79"></a>         :config</span>
-<span id="cb5-80"><a href="#cb5-80"></a>         (<span class="kw">setq</span> lsp-ui-doc-enable <span class="kw">t</span></span>
-<span id="cb5-81"><a href="#cb5-81"></a>           lsp-ui-doc-delay <span class="dv">1</span></span>
-<span id="cb5-82"><a href="#cb5-82"></a>           lsp-ui-doc-header <span class="kw">nil</span></span>
-<span id="cb5-83"><a href="#cb5-83"></a>           sp-ui-doc-include-signature <span class="kw">t</span></span>
-<span id="cb5-84"><a href="#cb5-84"></a>           lsp-ui-doc-border (face-foreground 'default)</span>
-<span id="cb5-85"><a href="#cb5-85"></a>           lsp-ui-doc-use-childframe <span class="kw">t</span></span>
-<span id="cb5-86"><a href="#cb5-86"></a>           lsp-ui-doc-position 'top</span>
-<span id="cb5-87"><a href="#cb5-87"></a>           lsp-ui-doc-include-signature <span class="kw">t</span></span>
-<span id="cb5-88"><a href="#cb5-88"></a>           lsp-ui-doc-use-childframe <span class="kw">t</span></span>
-<span id="cb5-89"><a href="#cb5-89"></a>           lsp-ui-sideline-enable <span class="kw">nil</span></span>
-<span id="cb5-90"><a href="#cb5-90"></a>           lsp-ui-flycheck-enable <span class="kw">t</span></span>
-<span id="cb5-91"><a href="#cb5-91"></a>           lsp-ui-flycheck-list-position 'right</span>
-<span id="cb5-92"><a href="#cb5-92"></a>           lsp-ui-flycheck-live-reporting <span class="kw">t</span></span>
-<span id="cb5-93"><a href="#cb5-93"></a>           lsp-ui-peek-enable <span class="kw">t</span></span>
-<span id="cb5-94"><a href="#cb5-94"></a>           lsp-ui-peek-list-width <span class="dv">60</span></span>
-<span id="cb5-95"><a href="#cb5-95"></a>           lsp-ui-peek-peek-height <span class="dv">25</span></span>
-<span id="cb5-96"><a href="#cb5-96"></a>           lsp-ui-sideline-enable <span class="kw">t</span></span>
-<span id="cb5-97"><a href="#cb5-97"></a>           lsp-ui-sideline-show-code-actions <span class="kw">t</span></span>
-<span id="cb5-98"><a href="#cb5-98"></a>           lsp-ui-sideline-show-hover <span class="kw">t</span></span>
-<span id="cb5-99"><a href="#cb5-99"></a>           lsp-ui-sideline-delay <span class="dv">3</span>)</span>
-<span id="cb5-100"><a href="#cb5-100"></a>         :hook (lsp-mode . lsp-ui-mode)</span>
-<span id="cb5-101"><a href="#cb5-101"></a>         :bind (:map lsp-ui-mode-map</span>
-<span id="cb5-102"><a href="#cb5-102"></a>             (<span class="st">"C-c i"</span> . lsp-ui-imenu)))</span>
-<span id="cb5-103"><a href="#cb5-103"></a></span>
-<span id="cb5-104"><a href="#cb5-104"></a><span class="co">;; LSP Treemacs</span></span>
-<span id="cb5-105"><a href="#cb5-105"></a>(<span class="kw">use-package</span> lsp-treemacs</span>
-<span id="cb5-106"><a href="#cb5-106"></a>         :ensure <span class="kw">t</span></span>
-<span id="cb5-107"><a href="#cb5-107"></a>         :defer <span class="kw">t</span></span>
-<span id="cb5-108"><a href="#cb5-108"></a>         :config</span>
-<span id="cb5-109"><a href="#cb5-109"></a>         (<span class="kw">setq</span> lsp-treemacs-sync-mode <span class="dv">1</span>))</span>
-<span id="cb5-110"><a href="#cb5-110"></a></span>
-<span id="cb5-111"><a href="#cb5-111"></a><span class="co">;; Integration with the debug server</span></span>
-<span id="cb5-112"><a href="#cb5-112"></a>(<span class="kw">use-package</span> dap-mode</span>
-<span id="cb5-113"><a href="#cb5-113"></a>         :ensure <span class="kw">t</span></span>
-<span id="cb5-114"><a href="#cb5-114"></a>         :defer <span class="kw">t</span></span>
-<span id="cb5-115"><a href="#cb5-115"></a>         :after lsp-mode</span>
-<span id="cb5-116"><a href="#cb5-116"></a>         :config</span>
-<span id="cb5-117"><a href="#cb5-117"></a>         (dap-auto-configure-mode))</span>
-<span id="cb5-118"><a href="#cb5-118"></a></span>
-<span id="cb5-119"><a href="#cb5-119"></a></span>
-<span id="cb5-120"><a href="#cb5-120"></a><span class="co">;; Required to hide the modeline</span></span>
-<span id="cb5-121"><a href="#cb5-121"></a>(<span class="kw">use-package</span> hide-mode-line</span>
-<span id="cb5-122"><a href="#cb5-122"></a>         :ensure <span class="kw">t</span></span>
-<span id="cb5-123"><a href="#cb5-123"></a>         :defer <span class="kw">t</span>)</span>
-<span id="cb5-124"><a href="#cb5-124"></a></span>
-<span id="cb5-125"><a href="#cb5-125"></a></span>
-<span id="cb5-126"><a href="#cb5-126"></a><span class="co">;; Language servers</span></span>
-<span id="cb5-127"><a href="#cb5-127"></a><span class="co">;; Read the docs for the different variables set in the config.</span></span>
-<span id="cb5-128"><a href="#cb5-128"></a><span class="co">;; Python - pyright</span></span>
-<span id="cb5-129"><a href="#cb5-129"></a><span class="co">;; (use-package lsp-pyright</span></span>
-<span id="cb5-130"><a href="#cb5-130"></a><span class="co">;;   :ensure t</span></span>
-<span id="cb5-131"><a href="#cb5-131"></a><span class="co">;;   :defer t</span></span>
-<span id="cb5-132"><a href="#cb5-132"></a><span class="co">;;   :config</span></span>
-<span id="cb5-133"><a href="#cb5-133"></a><span class="co">;;   (setq lsp-clients-python-library-directories '("/usr/" "~/miniconda3/pkgs"))</span></span>
-<span id="cb5-134"><a href="#cb5-134"></a><span class="co">;;   (setq lsp-pyright-disable-language-service nil</span></span>
-<span id="cb5-135"><a href="#cb5-135"></a><span class="co">;;  lsp-pyright-disable-organize-imports nil</span></span>
-<span id="cb5-136"><a href="#cb5-136"></a><span class="co">;;  lsp-pyright-auto-import-completions t</span></span>
-<span id="cb5-137"><a href="#cb5-137"></a><span class="co">;;  lsp-pyright-use-library-code-for-types t</span></span>
-<span id="cb5-138"><a href="#cb5-138"></a><span class="co">;;  ;; lsp-pyright-typeshed-paths</span></span>
-<span id="cb5-139"><a href="#cb5-139"></a><span class="co">;;  ;; lsp-pyright-diagnostic-mode</span></span>
-<span id="cb5-140"><a href="#cb5-140"></a><span class="co">;;  lsp-pyright-typechecking-mode "basic"</span></span>
-<span id="cb5-141"><a href="#cb5-141"></a><span class="co">;;  lsp-pyright-log-level 1</span></span>
-<span id="cb5-142"><a href="#cb5-142"></a><span class="co">;;  ;; lsp-pyright-auto-search-paths</span></span>
-<span id="cb5-143"><a href="#cb5-143"></a><span class="co">;;  ;; lsp-pyright-extra-paths</span></span>
-<span id="cb5-144"><a href="#cb5-144"></a><span class="co">;;  lsp-pyright-venv-path "~/miniconda3/envs")</span></span>
-<span id="cb5-145"><a href="#cb5-145"></a><span class="co">;;   :hook ((python-mode . (lambda ()</span></span>
-<span id="cb5-146"><a href="#cb5-146"></a><span class="co">;;                           (require 'lsp-pyright) (lsp-deferred)))))</span></span>
-<span id="cb5-147"><a href="#cb5-147"></a></span>
-<span id="cb5-148"><a href="#cb5-148"></a><span class="co">;; Python - Jedi</span></span>
-<span id="cb5-149"><a href="#cb5-149"></a><span class="co">;; LSP Module : https://github.com/fredcamps/lsp-jedi</span></span>
-<span id="cb5-150"><a href="#cb5-150"></a><span class="co">;; Server     : https://github.com/pappasam/jedi-language-server</span></span>
-<span id="cb5-151"><a href="#cb5-151"></a>(<span class="kw">use-package</span> lsp-jedi</span>
-<span id="cb5-152"><a href="#cb5-152"></a>         :ensure <span class="kw">t</span></span>
-<span id="cb5-153"><a href="#cb5-153"></a>         :config</span>
-<span id="cb5-154"><a href="#cb5-154"></a>         (with-eval-after-load <span class="st">"lsp-mode"</span></span>
-<span id="cb5-155"><a href="#cb5-155"></a>           (add-to-list 'lsp-disabled-clients 'pyls)</span>
-<span id="cb5-156"><a href="#cb5-156"></a>           (add-to-list 'lsp-enabled-clients 'jedi)))</span>
-<span id="cb5-157"><a href="#cb5-157"></a><span class="co">;; :init</span></span>
-<span id="cb5-158"><a href="#cb5-158"></a><span class="co">;; (setq lsp-jedi-workspace-extra-paths</span></span>
-<span id="cb5-159"><a href="#cb5-159"></a><span class="co">;;       (vconcat lsp-jedi-workspace-extra-paths ["/home/neil/.virtualenvs/python3_10/lib/site-packages"])))</span></span>
-<span id="cb5-160"><a href="#cb5-160"></a></span>
-<span id="cb5-161"><a href="#cb5-161"></a><span class="co">;; Python pyls</span></span>
-<span id="cb5-162"><a href="#cb5-162"></a><span class="co">;; https://www.mattduck.com/lsp-python-getting-started.html</span></span>
-<span id="cb5-163"><a href="#cb5-163"></a></span>
-<span id="cb5-164"><a href="#cb5-164"></a><span class="co">;; Python - Sourcery</span></span>
-<span id="cb5-165"><a href="#cb5-165"></a><span class="co">;; https://github.com/sourcery-ai/sourcery/wiki/Emacs</span></span>
-<span id="cb5-166"><a href="#cb5-166"></a><span class="co">;; (lsp-register-client</span></span>
-<span id="cb5-167"><a href="#cb5-167"></a><span class="co">;;  (make-lsp-client :new-connection (lsp-stdio-connection '("sourcery" "lsp"))</span></span>
-<span id="cb5-168"><a href="#cb5-168"></a><span class="co">;;                   :initialization-options '((token . "user_ajagq3NtzYEZHCChHXS1bXvaFFZpOb3f8AC666z0J_cCknj8OLZsDR31tK0")</span></span>
-<span id="cb5-169"><a href="#cb5-169"></a><span class="co">;;                                             (extension_version . "emacs-lsp")</span></span>
-<span id="cb5-170"><a href="#cb5-170"></a><span class="co">;;                                             (editor_version . "emacs"))</span></span>
-<span id="cb5-171"><a href="#cb5-171"></a><span class="co">;;                   :activation-fn (lsp-activate-on "python")</span></span>
-<span id="cb5-172"><a href="#cb5-172"></a><span class="co">;;                   :server-id 'sourcery</span></span>
-<span id="cb5-173"><a href="#cb5-173"></a><span class="co">;;                   :add-on? t</span></span>
-<span id="cb5-174"><a href="#cb5-174"></a><span class="co">;;                   :priority 2))</span></span>
-<span id="cb5-175"><a href="#cb5-175"></a><span class="co">;; LTex</span></span>
-<span id="cb5-176"><a href="#cb5-176"></a><span class="co">;; LSP Module : https://github.com/emacs-languagetool/lsp-ltex</span></span>
-<span id="cb5-177"><a href="#cb5-177"></a><span class="co">;; Server     : https://valentjn.github.io/ltex/</span></span>
-<span id="cb5-178"><a href="#cb5-178"></a>(<span class="kw">use-package</span> lsp-ltex</span>
-<span id="cb5-179"><a href="#cb5-179"></a>         :ensure <span class="kw">t</span></span>
-<span id="cb5-180"><a href="#cb5-180"></a>         :hook (text-mode . (<span class="kw">lambda</span> ()</span>
-<span id="cb5-181"><a href="#cb5-181"></a>                  (<span class="kw">require</span> 'lsp-ltex)</span>
-<span id="cb5-182"><a href="#cb5-182"></a>                  (lsp))))  <span class="co">; or lsp-deferred</span></span>
-<span id="cb5-183"><a href="#cb5-183"></a>(<span class="kw">use-package</span> lsp-latex</span>
-<span id="cb5-184"><a href="#cb5-184"></a>         :ensure <span class="kw">t</span></span>
-<span id="cb5-185"><a href="#cb5-185"></a>         :hook (text-mode . (<span class="kw">lambda</span> ()</span>
-<span id="cb5-186"><a href="#cb5-186"></a>                  (<span class="kw">require</span> 'lsp-latex)</span>
-<span id="cb5-187"><a href="#cb5-187"></a>                  (lsp))))</span>
-<span id="cb5-188"><a href="#cb5-188"></a><span class="co">;; Julia</span></span>
-<span id="cb5-189"><a href="#cb5-189"></a><span class="co">;; LSP Module : https://github.com/non-Jedi/lsp-julia</span></span>
-<span id="cb5-190"><a href="#cb5-190"></a><span class="co">;; Server     :</span></span>
-<span id="cb5-191"><a href="#cb5-191"></a>(<span class="kw">use-package</span> lsp-julia</span>
-<span id="cb5-192"><a href="#cb5-192"></a>         :ensure <span class="kw">t</span></span>
-<span id="cb5-193"><a href="#cb5-193"></a>         :config</span>
-<span id="cb5-194"><a href="#cb5-194"></a>         (<span class="kw">setq</span> lsp-julia-default-environment <span class="st">"~/.julia/environments/v1.5"</span>))</span>
-<span id="cb5-195"><a href="#cb5-195"></a></span>
-<span id="cb5-196"><a href="#cb5-196"></a><span class="co">;; Markdown</span></span>
-<span id="cb5-197"><a href="#cb5-197"></a><span class="co">;; LSP Module : https://emacs-lsp.github.io/lsp-mode/page/lsp-markdown/</span></span>
-<span id="cb5-198"><a href="#cb5-198"></a><span class="co">;; Server     : https://github.com/remarkjs/remark-language-server</span></span>
-<span id="cb5-199"><a href="#cb5-199"></a></span>
-<span id="cb5-200"><a href="#cb5-200"></a><span class="co">;; Bash</span></span>
-<span id="cb5-201"><a href="#cb5-201"></a><span class="co">;; https://github.com/bash-lsp/bash-language-server</span></span>
-<span id="cb5-202"><a href="#cb5-202"></a></span>
-<span id="cb5-203"><a href="#cb5-203"></a><span class="co">;; R</span></span>
-<span id="cb5-204"><a href="#cb5-204"></a><span class="co">;; https://emacs-lsp.github.io/lsp-mode/page/lsp-r/</span></span>
-<span id="cb5-205"><a href="#cb5-205"></a><span class="co">;; (use-package lsp-r</span></span>
-<span id="cb5-206"><a href="#cb5-206"></a><span class="co">;;   :ensure t)</span></span>
-<span id="cb5-207"><a href="#cb5-207"></a></span>
-<span id="cb5-208"><a href="#cb5-208"></a><span class="co">;; Cleanup LSP sessions https://arjenwiersma.nl/posts/2022-11-07-cleaning-up-after-lsp/index.html</span></span>
-<span id="cb5-209"><a href="#cb5-209"></a>(<span class="kw">defun</span><span class="fu"> nds/cleanup-lsp </span>()</span>
-<span id="cb5-210"><a href="#cb5-210"></a>  <span class="st">"Remove all the workspace folders from LSP"</span></span>
-<span id="cb5-211"><a href="#cb5-211"></a>  (interactive)</span>
-<span id="cb5-212"><a href="#cb5-212"></a>  (<span class="kw">let</span> ((folders (lsp-session-folders (lsp-session))))</span>
-<span id="cb5-213"><a href="#cb5-213"></a>    (while folders</span>
-<span id="cb5-214"><a href="#cb5-214"></a>      (lsp-workspace-folders-remove (<span class="kw">car</span> folders))</span>
-<span id="cb5-215"><a href="#cb5-215"></a>      (<span class="kw">setq</span> folders (<span class="kw">cdr</span> folders)))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource lisp number-lines code-with-copy"><code class="sourceCode commonlisp"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">;;; LSP CONFIGURATION</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="co">;;; --------------------------------------</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="co">;;; https://gitlab.com/nathanfurnal/dotemacs/-/snippets/2060535</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="co">;;; https://ianyepan.github.io/posts/emacs-ide/</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="co">;; Provides workspaces with file browsing (tree file viewer)</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="co">;; and project management when coupled with `projectile`.</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a>(<span class="kw">use-package</span> treemacs</span>
+<span id="cb6-8"><a href="#cb6-8"></a>         :ensure <span class="kw">t</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a>         :defer <span class="kw">t</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a>         :config</span>
+<span id="cb6-11"><a href="#cb6-11"></a>         (<span class="kw">setq</span> treemacs-no-png-images <span class="kw">t</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a>           treemacs-width <span class="dv">24</span>)</span>
+<span id="cb6-13"><a href="#cb6-13"></a>         :bind (<span class="st">"C-c t"</span> . treemacs))</span>
+<span id="cb6-14"><a href="#cb6-14"></a></span>
+<span id="cb6-15"><a href="#cb6-15"></a></span>
+<span id="cb6-16"><a href="#cb6-16"></a><span class="co">;; Provide LSP-mode for python, it requires a language server.</span></span>
+<span id="cb6-17"><a href="#cb6-17"></a><span class="co">;; I use `lsp-pyright`. Know that you have to `M-x lsp-restart-workspace`</span></span>
+<span id="cb6-18"><a href="#cb6-18"></a><span class="co">;; if you change the virtual environment in an open python buffer.</span></span>
+<span id="cb6-19"><a href="#cb6-19"></a>(<span class="kw">use-package</span> lsp-mode</span>
+<span id="cb6-20"><a href="#cb6-20"></a>         :ensure <span class="kw">t</span></span>
+<span id="cb6-21"><a href="#cb6-21"></a>         :defer <span class="kw">t</span></span>
+<span id="cb6-22"><a href="#cb6-22"></a>         :config</span>
+<span id="cb6-23"><a href="#cb6-23"></a>         (<span class="kw">setq</span> lsp-idle-delay <span class="fl">0.5</span></span>
+<span id="cb6-24"><a href="#cb6-24"></a>           lsp-enable-symbol-highlighting <span class="kw">t</span></span>
+<span id="cb6-25"><a href="#cb6-25"></a>           lsp-pylsp-plugins-pylint-args [<span class="st">"--rcfile=/home/neil/dotfiles/python/.pylintrc"</span>])</span>
+<span id="cb6-26"><a href="#cb6-26"></a>         <span class="co">;; (setq lsp-markdown-server-command remark-language-server)</span></span>
+<span id="cb6-27"><a href="#cb6-27"></a>         <span class="co">;; (lsp-register-custom-settings</span></span>
+<span id="cb6-28"><a href="#cb6-28"></a>         <span class="co">;;  ;; pyls enabled/disabled https://github.com/python-lsp/python-lsp-server/blob/develop/CONFIGURATION.md</span></span>
+<span id="cb6-29"><a href="#cb6-29"></a>         <span class="co">;;  '(;; Enabled</span></span>
+<span id="cb6-30"><a href="#cb6-30"></a>         <span class="co">;;    ("pylsp.plugins.jedi_completion.enabled" t t)</span></span>
+<span id="cb6-31"><a href="#cb6-31"></a>         <span class="co">;;    ("pylsp.plugins.jedi_completion.cache_for" '(pandas, numpy, matplotlib))</span></span>
+<span id="cb6-32"><a href="#cb6-32"></a>         <span class="co">;;    ("pylsp.plugins.jedi_hover.enabled" t t)</span></span>
+<span id="cb6-33"><a href="#cb6-33"></a>         <span class="co">;;    ("pylsp.plugins.jedi_references.enabled" t t)</span></span>
+<span id="cb6-34"><a href="#cb6-34"></a>         <span class="co">;;    ("pylsp.plugins.pyls_black.enabled" t t)</span></span>
+<span id="cb6-35"><a href="#cb6-35"></a>         <span class="co">;;    ("pylsp.plugins.pycodestyle.maxLineLength" nil 120)</span></span>
+<span id="cb6-36"><a href="#cb6-36"></a>         <span class="co">;;    ;; ("pylsp.plugins.pydocstyle.enabled" t t)</span></span>
+<span id="cb6-37"><a href="#cb6-37"></a>         <span class="co">;;    ;; ("pylsp.plugins.pydocstyle.convention" nil 'numpy)</span></span>
+<span id="cb6-38"><a href="#cb6-38"></a>         <span class="co">;;    ("pylsp.plugins.pylint.enabled" t t)</span></span>
+<span id="cb6-39"><a href="#cb6-39"></a>         <span class="co">;;    ;; Disabled (duplicated by flake8)</span></span>
+<span id="cb6-40"><a href="#cb6-40"></a>         <span class="co">;;    ("pylsp.plugins.pycodestyle.enabled" nil t)</span></span>
+<span id="cb6-41"><a href="#cb6-41"></a>         <span class="co">;;    ("pylsp.plugins.mccabe.enabled" nil t)</span></span>
+<span id="cb6-42"><a href="#cb6-42"></a>         <span class="co">;;    ("pylsp.plugins.pyflakes.enabled" nil t)))</span></span>
+<span id="cb6-43"><a href="#cb6-43"></a>         :commands (lsp lsp-deferred)</span>
+<span id="cb6-44"><a href="#cb6-44"></a>         :init (<span class="kw">setq</span> lsp-keymap-prefix <span class="st">"C-c l"</span></span>
+<span id="cb6-45"><a href="#cb6-45"></a>             lsp-bash-highlight-parsing-errors <span class="kw">t</span>)</span>
+<span id="cb6-46"><a href="#cb6-46"></a>         :hook ((python-mode . lsp)</span>
+<span id="cb6-47"><a href="#cb6-47"></a>            (bash-mode . lsp)</span>
+<span id="cb6-48"><a href="#cb6-48"></a>            (dockerfile-mode . lsp)</span>
+<span id="cb6-49"><a href="#cb6-49"></a>            (groovy-mode . lsp)</span>
+<span id="cb6-50"><a href="#cb6-50"></a>            (html-mode . lsp)</span>
+<span id="cb6-51"><a href="#cb6-51"></a>            (latex-mode . lsp)</span>
+<span id="cb6-52"><a href="#cb6-52"></a>            (markdown-mode . lsp)</span>
+<span id="cb6-53"><a href="#cb6-53"></a>            (gfm-mode . lsp)</span>
+<span id="cb6-54"><a href="#cb6-54"></a>            (org-mode . lsp)</span>
+<span id="cb6-55"><a href="#cb6-55"></a>            (R-mode . lsp)</span>
+<span id="cb6-56"><a href="#cb6-56"></a>            (ess-r-mode . lsp)</span>
+<span id="cb6-57"><a href="#cb6-57"></a>            (sh-mode . lsp)</span>
+<span id="cb6-58"><a href="#cb6-58"></a>            (terraform-mode . lsp)))</span>
+<span id="cb6-59"><a href="#cb6-59"></a></span>
+<span id="cb6-60"><a href="#cb6-60"></a><span class="co">;; Provides completion, with the proper backend</span></span>
+<span id="cb6-61"><a href="#cb6-61"></a><span class="co">;; it will provide Python completion.</span></span>
+<span id="cb6-62"><a href="#cb6-62"></a>(<span class="kw">use-package</span> company</span>
+<span id="cb6-63"><a href="#cb6-63"></a>         :ensure <span class="kw">t</span></span>
+<span id="cb6-64"><a href="#cb6-64"></a>         :defer <span class="kw">t</span></span>
+<span id="cb6-65"><a href="#cb6-65"></a>         :diminish</span>
+<span id="cb6-66"><a href="#cb6-66"></a>         :config</span>
+<span id="cb6-67"><a href="#cb6-67"></a>         (<span class="kw">setq</span> company-dabbrev-other-buffers <span class="kw">t</span></span>
+<span id="cb6-68"><a href="#cb6-68"></a>           company-dabbrev-code-other-buffers <span class="kw">t</span>)</span>
+<span id="cb6-69"><a href="#cb6-69"></a>         :hook ((text-mode . company-mode)</span>
+<span id="cb6-70"><a href="#cb6-70"></a>            (prog-mode . company-mode)))</span>
+<span id="cb6-71"><a href="#cb6-71"></a></span>
+<span id="cb6-72"><a href="#cb6-72"></a><span class="co">;; Provides visual help in the buffer</span></span>
+<span id="cb6-73"><a href="#cb6-73"></a><span class="co">;; For example definitions on hover.</span></span>
+<span id="cb6-74"><a href="#cb6-74"></a><span class="co">;; The `imenu` lets me browse definitions quickly.</span></span>
+<span id="cb6-75"><a href="#cb6-75"></a><span class="co">;; https://github.com/emacs-lsp/lsp-ui</span></span>
+<span id="cb6-76"><a href="#cb6-76"></a>(<span class="kw">use-package</span> lsp-ui</span>
+<span id="cb6-77"><a href="#cb6-77"></a>         :ensure <span class="kw">t</span></span>
+<span id="cb6-78"><a href="#cb6-78"></a>         :defer <span class="kw">t</span></span>
+<span id="cb6-79"><a href="#cb6-79"></a>         :config</span>
+<span id="cb6-80"><a href="#cb6-80"></a>         (<span class="kw">setq</span> lsp-ui-doc-enable <span class="kw">t</span></span>
+<span id="cb6-81"><a href="#cb6-81"></a>           lsp-ui-doc-delay <span class="dv">1</span></span>
+<span id="cb6-82"><a href="#cb6-82"></a>           lsp-ui-doc-header <span class="kw">nil</span></span>
+<span id="cb6-83"><a href="#cb6-83"></a>           sp-ui-doc-include-signature <span class="kw">t</span></span>
+<span id="cb6-84"><a href="#cb6-84"></a>           lsp-ui-doc-border (face-foreground 'default)</span>
+<span id="cb6-85"><a href="#cb6-85"></a>           lsp-ui-doc-use-childframe <span class="kw">t</span></span>
+<span id="cb6-86"><a href="#cb6-86"></a>           lsp-ui-doc-position 'top</span>
+<span id="cb6-87"><a href="#cb6-87"></a>           lsp-ui-doc-include-signature <span class="kw">t</span></span>
+<span id="cb6-88"><a href="#cb6-88"></a>           lsp-ui-doc-use-childframe <span class="kw">t</span></span>
+<span id="cb6-89"><a href="#cb6-89"></a>           lsp-ui-sideline-enable <span class="kw">nil</span></span>
+<span id="cb6-90"><a href="#cb6-90"></a>           lsp-ui-flycheck-enable <span class="kw">t</span></span>
+<span id="cb6-91"><a href="#cb6-91"></a>           lsp-ui-flycheck-list-position 'right</span>
+<span id="cb6-92"><a href="#cb6-92"></a>           lsp-ui-flycheck-live-reporting <span class="kw">t</span></span>
+<span id="cb6-93"><a href="#cb6-93"></a>           lsp-ui-peek-enable <span class="kw">t</span></span>
+<span id="cb6-94"><a href="#cb6-94"></a>           lsp-ui-peek-list-width <span class="dv">60</span></span>
+<span id="cb6-95"><a href="#cb6-95"></a>           lsp-ui-peek-peek-height <span class="dv">25</span></span>
+<span id="cb6-96"><a href="#cb6-96"></a>           lsp-ui-sideline-enable <span class="kw">t</span></span>
+<span id="cb6-97"><a href="#cb6-97"></a>           lsp-ui-sideline-show-code-actions <span class="kw">t</span></span>
+<span id="cb6-98"><a href="#cb6-98"></a>           lsp-ui-sideline-show-hover <span class="kw">t</span></span>
+<span id="cb6-99"><a href="#cb6-99"></a>           lsp-ui-sideline-delay <span class="dv">3</span>)</span>
+<span id="cb6-100"><a href="#cb6-100"></a>         :hook (lsp-mode . lsp-ui-mode)</span>
+<span id="cb6-101"><a href="#cb6-101"></a>         :bind (:map lsp-ui-mode-map</span>
+<span id="cb6-102"><a href="#cb6-102"></a>             (<span class="st">"C-c i"</span> . lsp-ui-imenu)))</span>
+<span id="cb6-103"><a href="#cb6-103"></a></span>
+<span id="cb6-104"><a href="#cb6-104"></a><span class="co">;; LSP Treemacs</span></span>
+<span id="cb6-105"><a href="#cb6-105"></a>(<span class="kw">use-package</span> lsp-treemacs</span>
+<span id="cb6-106"><a href="#cb6-106"></a>         :ensure <span class="kw">t</span></span>
+<span id="cb6-107"><a href="#cb6-107"></a>         :defer <span class="kw">t</span></span>
+<span id="cb6-108"><a href="#cb6-108"></a>         :config</span>
+<span id="cb6-109"><a href="#cb6-109"></a>         (<span class="kw">setq</span> lsp-treemacs-sync-mode <span class="dv">1</span>))</span>
+<span id="cb6-110"><a href="#cb6-110"></a></span>
+<span id="cb6-111"><a href="#cb6-111"></a><span class="co">;; Integration with the debug server</span></span>
+<span id="cb6-112"><a href="#cb6-112"></a>(<span class="kw">use-package</span> dap-mode</span>
+<span id="cb6-113"><a href="#cb6-113"></a>         :ensure <span class="kw">t</span></span>
+<span id="cb6-114"><a href="#cb6-114"></a>         :defer <span class="kw">t</span></span>
+<span id="cb6-115"><a href="#cb6-115"></a>         :after lsp-mode</span>
+<span id="cb6-116"><a href="#cb6-116"></a>         :config</span>
+<span id="cb6-117"><a href="#cb6-117"></a>         (dap-auto-configure-mode))</span>
+<span id="cb6-118"><a href="#cb6-118"></a></span>
+<span id="cb6-119"><a href="#cb6-119"></a></span>
+<span id="cb6-120"><a href="#cb6-120"></a><span class="co">;; Required to hide the modeline</span></span>
+<span id="cb6-121"><a href="#cb6-121"></a>(<span class="kw">use-package</span> hide-mode-line</span>
+<span id="cb6-122"><a href="#cb6-122"></a>         :ensure <span class="kw">t</span></span>
+<span id="cb6-123"><a href="#cb6-123"></a>         :defer <span class="kw">t</span>)</span>
+<span id="cb6-124"><a href="#cb6-124"></a></span>
+<span id="cb6-125"><a href="#cb6-125"></a></span>
+<span id="cb6-126"><a href="#cb6-126"></a><span class="co">;; Language servers</span></span>
+<span id="cb6-127"><a href="#cb6-127"></a><span class="co">;; Read the docs for the different variables set in the config.</span></span>
+<span id="cb6-128"><a href="#cb6-128"></a><span class="co">;; Python - pyright</span></span>
+<span id="cb6-129"><a href="#cb6-129"></a><span class="co">;; (use-package lsp-pyright</span></span>
+<span id="cb6-130"><a href="#cb6-130"></a><span class="co">;;   :ensure t</span></span>
+<span id="cb6-131"><a href="#cb6-131"></a><span class="co">;;   :defer t</span></span>
+<span id="cb6-132"><a href="#cb6-132"></a><span class="co">;;   :config</span></span>
+<span id="cb6-133"><a href="#cb6-133"></a><span class="co">;;   (setq lsp-clients-python-library-directories '("/usr/" "~/miniconda3/pkgs"))</span></span>
+<span id="cb6-134"><a href="#cb6-134"></a><span class="co">;;   (setq lsp-pyright-disable-language-service nil</span></span>
+<span id="cb6-135"><a href="#cb6-135"></a><span class="co">;;  lsp-pyright-disable-organize-imports nil</span></span>
+<span id="cb6-136"><a href="#cb6-136"></a><span class="co">;;  lsp-pyright-auto-import-completions t</span></span>
+<span id="cb6-137"><a href="#cb6-137"></a><span class="co">;;  lsp-pyright-use-library-code-for-types t</span></span>
+<span id="cb6-138"><a href="#cb6-138"></a><span class="co">;;  ;; lsp-pyright-typeshed-paths</span></span>
+<span id="cb6-139"><a href="#cb6-139"></a><span class="co">;;  ;; lsp-pyright-diagnostic-mode</span></span>
+<span id="cb6-140"><a href="#cb6-140"></a><span class="co">;;  lsp-pyright-typechecking-mode "basic"</span></span>
+<span id="cb6-141"><a href="#cb6-141"></a><span class="co">;;  lsp-pyright-log-level 1</span></span>
+<span id="cb6-142"><a href="#cb6-142"></a><span class="co">;;  ;; lsp-pyright-auto-search-paths</span></span>
+<span id="cb6-143"><a href="#cb6-143"></a><span class="co">;;  ;; lsp-pyright-extra-paths</span></span>
+<span id="cb6-144"><a href="#cb6-144"></a><span class="co">;;  lsp-pyright-venv-path "~/miniconda3/envs")</span></span>
+<span id="cb6-145"><a href="#cb6-145"></a><span class="co">;;   :hook ((python-mode . (lambda ()</span></span>
+<span id="cb6-146"><a href="#cb6-146"></a><span class="co">;;                           (require 'lsp-pyright) (lsp-deferred)))))</span></span>
+<span id="cb6-147"><a href="#cb6-147"></a></span>
+<span id="cb6-148"><a href="#cb6-148"></a><span class="co">;; Python - Jedi</span></span>
+<span id="cb6-149"><a href="#cb6-149"></a><span class="co">;; LSP Module : https://github.com/fredcamps/lsp-jedi</span></span>
+<span id="cb6-150"><a href="#cb6-150"></a><span class="co">;; Server     : https://github.com/pappasam/jedi-language-server</span></span>
+<span id="cb6-151"><a href="#cb6-151"></a>(<span class="kw">use-package</span> lsp-jedi</span>
+<span id="cb6-152"><a href="#cb6-152"></a>         :ensure <span class="kw">t</span></span>
+<span id="cb6-153"><a href="#cb6-153"></a>         :config</span>
+<span id="cb6-154"><a href="#cb6-154"></a>         (with-eval-after-load <span class="st">"lsp-mode"</span></span>
+<span id="cb6-155"><a href="#cb6-155"></a>           (add-to-list 'lsp-disabled-clients 'pyls)</span>
+<span id="cb6-156"><a href="#cb6-156"></a>           (add-to-list 'lsp-enabled-clients 'jedi)))</span>
+<span id="cb6-157"><a href="#cb6-157"></a><span class="co">;; :init</span></span>
+<span id="cb6-158"><a href="#cb6-158"></a><span class="co">;; (setq lsp-jedi-workspace-extra-paths</span></span>
+<span id="cb6-159"><a href="#cb6-159"></a><span class="co">;;       (vconcat lsp-jedi-workspace-extra-paths ["/home/neil/.virtualenvs/python3_10/lib/site-packages"])))</span></span>
+<span id="cb6-160"><a href="#cb6-160"></a></span>
+<span id="cb6-161"><a href="#cb6-161"></a><span class="co">;; Python pyls</span></span>
+<span id="cb6-162"><a href="#cb6-162"></a><span class="co">;; https://www.mattduck.com/lsp-python-getting-started.html</span></span>
+<span id="cb6-163"><a href="#cb6-163"></a></span>
+<span id="cb6-164"><a href="#cb6-164"></a><span class="co">;; Python - Sourcery</span></span>
+<span id="cb6-165"><a href="#cb6-165"></a><span class="co">;; https://github.com/sourcery-ai/sourcery/wiki/Emacs</span></span>
+<span id="cb6-166"><a href="#cb6-166"></a><span class="co">;; (lsp-register-client</span></span>
+<span id="cb6-167"><a href="#cb6-167"></a><span class="co">;;  (make-lsp-client :new-connection (lsp-stdio-connection '("sourcery" "lsp"))</span></span>
+<span id="cb6-168"><a href="#cb6-168"></a><span class="co">;;                   :initialization-options '((token . "user_ajagq3NtzYEZHCChHXS1bXvaFFZpOb3f8AC666z0J_cCknj8OLZsDR31tK0")</span></span>
+<span id="cb6-169"><a href="#cb6-169"></a><span class="co">;;                                             (extension_version . "emacs-lsp")</span></span>
+<span id="cb6-170"><a href="#cb6-170"></a><span class="co">;;                                             (editor_version . "emacs"))</span></span>
+<span id="cb6-171"><a href="#cb6-171"></a><span class="co">;;                   :activation-fn (lsp-activate-on "python")</span></span>
+<span id="cb6-172"><a href="#cb6-172"></a><span class="co">;;                   :server-id 'sourcery</span></span>
+<span id="cb6-173"><a href="#cb6-173"></a><span class="co">;;                   :add-on? t</span></span>
+<span id="cb6-174"><a href="#cb6-174"></a><span class="co">;;                   :priority 2))</span></span>
+<span id="cb6-175"><a href="#cb6-175"></a><span class="co">;; LTex</span></span>
+<span id="cb6-176"><a href="#cb6-176"></a><span class="co">;; LSP Module : https://github.com/emacs-languagetool/lsp-ltex</span></span>
+<span id="cb6-177"><a href="#cb6-177"></a><span class="co">;; Server     : https://valentjn.github.io/ltex/</span></span>
+<span id="cb6-178"><a href="#cb6-178"></a>(<span class="kw">use-package</span> lsp-ltex</span>
+<span id="cb6-179"><a href="#cb6-179"></a>         :ensure <span class="kw">t</span></span>
+<span id="cb6-180"><a href="#cb6-180"></a>         :hook (text-mode . (<span class="kw">lambda</span> ()</span>
+<span id="cb6-181"><a href="#cb6-181"></a>                  (<span class="kw">require</span> 'lsp-ltex)</span>
+<span id="cb6-182"><a href="#cb6-182"></a>                  (lsp))))  <span class="co">; or lsp-deferred</span></span>
+<span id="cb6-183"><a href="#cb6-183"></a>(<span class="kw">use-package</span> lsp-latex</span>
+<span id="cb6-184"><a href="#cb6-184"></a>         :ensure <span class="kw">t</span></span>
+<span id="cb6-185"><a href="#cb6-185"></a>         :hook (text-mode . (<span class="kw">lambda</span> ()</span>
+<span id="cb6-186"><a href="#cb6-186"></a>                  (<span class="kw">require</span> 'lsp-latex)</span>
+<span id="cb6-187"><a href="#cb6-187"></a>                  (lsp))))</span>
+<span id="cb6-188"><a href="#cb6-188"></a><span class="co">;; Julia</span></span>
+<span id="cb6-189"><a href="#cb6-189"></a><span class="co">;; LSP Module : https://github.com/non-Jedi/lsp-julia</span></span>
+<span id="cb6-190"><a href="#cb6-190"></a><span class="co">;; Server     :</span></span>
+<span id="cb6-191"><a href="#cb6-191"></a>(<span class="kw">use-package</span> lsp-julia</span>
+<span id="cb6-192"><a href="#cb6-192"></a>         :ensure <span class="kw">t</span></span>
+<span id="cb6-193"><a href="#cb6-193"></a>         :config</span>
+<span id="cb6-194"><a href="#cb6-194"></a>         (<span class="kw">setq</span> lsp-julia-default-environment <span class="st">"~/.julia/environments/v1.5"</span>))</span>
+<span id="cb6-195"><a href="#cb6-195"></a></span>
+<span id="cb6-196"><a href="#cb6-196"></a><span class="co">;; Markdown</span></span>
+<span id="cb6-197"><a href="#cb6-197"></a><span class="co">;; LSP Module : https://emacs-lsp.github.io/lsp-mode/page/lsp-markdown/</span></span>
+<span id="cb6-198"><a href="#cb6-198"></a><span class="co">;; Server     : https://github.com/remarkjs/remark-language-server</span></span>
+<span id="cb6-199"><a href="#cb6-199"></a></span>
+<span id="cb6-200"><a href="#cb6-200"></a><span class="co">;; Bash</span></span>
+<span id="cb6-201"><a href="#cb6-201"></a><span class="co">;; https://github.com/bash-lsp/bash-language-server</span></span>
+<span id="cb6-202"><a href="#cb6-202"></a></span>
+<span id="cb6-203"><a href="#cb6-203"></a><span class="co">;; R</span></span>
+<span id="cb6-204"><a href="#cb6-204"></a><span class="co">;; https://emacs-lsp.github.io/lsp-mode/page/lsp-r/</span></span>
+<span id="cb6-205"><a href="#cb6-205"></a><span class="co">;; (use-package lsp-r</span></span>
+<span id="cb6-206"><a href="#cb6-206"></a><span class="co">;;   :ensure t)</span></span>
+<span id="cb6-207"><a href="#cb6-207"></a></span>
+<span id="cb6-208"><a href="#cb6-208"></a><span class="co">;; Cleanup LSP sessions https://arjenwiersma.nl/posts/2022-11-07-cleaning-up-after-lsp/index.html</span></span>
+<span id="cb6-209"><a href="#cb6-209"></a>(<span class="kw">defun</span><span class="fu"> nds/cleanup-lsp </span>()</span>
+<span id="cb6-210"><a href="#cb6-210"></a>  <span class="st">"Remove all the workspace folders from LSP"</span></span>
+<span id="cb6-211"><a href="#cb6-211"></a>  (interactive)</span>
+<span id="cb6-212"><a href="#cb6-212"></a>  (<span class="kw">let</span> ((folders (lsp-session-folders (lsp-session))))</span>
+<span id="cb6-213"><a href="#cb6-213"></a>    (while folders</span>
+<span id="cb6-214"><a href="#cb6-214"></a>      (lsp-workspace-folders-remove (<span class="kw">car</span> folders))</span>
+<span id="cb6-215"><a href="#cb6-215"></a>      (<span class="kw">setq</span> folders (<span class="kw">cdr</span> folders)))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="eglot" class="slide level2 scrollable">
 <h2><a href="https://joaotavora.github.io/eglot/">Eglot</a></h2>
 <p>Experimental, basic stuff works, not yet on a par with LSP Mode.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource lisp number-lines code-with-copy"><code class="sourceCode commonlisp"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">;;; Eglot settings</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="co">;;;</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="co">;;; https://joaotavora.github.io/eglot/ / https://github.com/joaotavora/eglot</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="co">;;;</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="co">;;; Language Servers</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="co">;;; ----------------</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="co">;;;</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a><span class="co">;;; Bash https://github.com/bash-lsp/bash-language-server</span></span>
-<span id="cb6-9"><a href="#cb6-9"></a><span class="co">;;; Dockerfile https://github.com/rcjsuen/dockerfile-language-server-nodejs</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a><span class="co">;;; JSON https://github.com/hrsh7th/vscode-langservers-extracted</span></span>
-<span id="cb6-11"><a href="#cb6-11"></a><span class="co">;;; Markdown https://github.com/artempyanykh/marksman</span></span>
-<span id="cb6-12"><a href="#cb6-12"></a><span class="co">;;; Python https://github.com/pappasam/jedi-language-server</span></span>
-<span id="cb6-13"><a href="#cb6-13"></a><span class="co">;;; R https://cran.r-project.org/package=languageserver</span></span>
-<span id="cb6-14"><a href="#cb6-14"></a><span class="co">;;; Rust https://github.com/rust-analyzer/rust-analyzer</span></span>
-<span id="cb6-15"><a href="#cb6-15"></a><span class="co">;;; Tex/LaTeX https://github.com/astoff/digestif</span></span>
-<span id="cb6-16"><a href="#cb6-16"></a><span class="co">;;; YAML https://github.com/redhat-developer/yaml-language-server</span></span>
-<span id="cb6-17"><a href="#cb6-17"></a><span class="co">;;;</span></span>
-<span id="cb6-18"><a href="#cb6-18"></a><span class="co">;;; Org-mode isn't yet supported but see https://github.com/joaotavora/eglot/issues/523</span></span>
-<span id="cb6-19"><a href="#cb6-19"></a></span>
-<span id="cb6-20"><a href="#cb6-20"></a></span>
-<span id="cb6-21"><a href="#cb6-21"></a>(<span class="kw">use-package</span> eglot</span>
-<span id="cb6-22"><a href="#cb6-22"></a>         :ensure <span class="kw">t</span></span>
-<span id="cb6-23"><a href="#cb6-23"></a>         :defer <span class="kw">t</span></span>
-<span id="cb6-24"><a href="#cb6-24"></a>         :config</span>
-<span id="cb6-25"><a href="#cb6-25"></a>         (define-key global-map (kbd <span class="st">"C-c E"</span>) (make-sparse-keymap))</span>
-<span id="cb6-26"><a href="#cb6-26"></a>         (add-to-list 'eglot-server-programs '(python-mode . (<span class="st">"jedi-language-server"</span>)))</span>
-<span id="cb6-27"><a href="#cb6-27"></a>         :init</span>
-<span id="cb6-28"><a href="#cb6-28"></a>         (<span class="kw">setq</span> lsp-keymap-prefix <span class="st">"C-c l"</span></span>
-<span id="cb6-29"><a href="#cb6-29"></a>           lsp-bash-highlight-parsing-errors <span class="kw">t</span></span>
-<span id="cb6-30"><a href="#cb6-30"></a>           lsp-pylsp-plugins-pylint-args [<span class="st">"--rcfile=/home/neil/dotfiles/python/.pylintrc"</span>])</span>
-<span id="cb6-31"><a href="#cb6-31"></a>         :hook</span>
-<span id="cb6-32"><a href="#cb6-32"></a>         ((bash-mode . eglot-ensure)</span>
-<span id="cb6-33"><a href="#cb6-33"></a>          (ess-r-mode . eglot-ensure)</span>
-<span id="cb6-34"><a href="#cb6-34"></a>          (html-mode . eglot-ensure)</span>
-<span id="cb6-35"><a href="#cb6-35"></a>          (latex-mode . eglot-ensure)</span>
-<span id="cb6-36"><a href="#cb6-36"></a>          (markdown-mode . eglot-ensure)</span>
-<span id="cb6-37"><a href="#cb6-37"></a>          (python-mode . eglot-ensure)</span>
-<span id="cb6-38"><a href="#cb6-38"></a>          (R-mode . eglot-ensure)</span>
-<span id="cb6-39"><a href="#cb6-39"></a>          (rust-mode . eglot-ensure)</span>
-<span id="cb6-40"><a href="#cb6-40"></a>          (sh-mode . eglot-ensure))</span>
-<span id="cb6-41"><a href="#cb6-41"></a>             :bind</span>
-<span id="cb6-42"><a href="#cb6-42"></a>             ((<span class="st">"C-c e l"</span> . eglot)</span>
-<span id="cb6-43"><a href="#cb6-43"></a>              (<span class="st">"C-c e c"</span> . eglot-reconnect)</span>
-<span id="cb6-44"><a href="#cb6-44"></a>          (<span class="st">"C-c e s"</span> . eglot-shutdown)</span>
-<span id="cb6-45"><a href="#cb6-45"></a>              (<span class="st">"C-c e d"</span> . flymake-show-buffer-diagnostics)</span>
-<span id="cb6-46"><a href="#cb6-46"></a>              (<span class="st">"C-c e f f"</span> . eglot-format)</span>
-<span id="cb6-47"><a href="#cb6-47"></a>              (<span class="st">"C-c e f b"</span> . eglot-format-buffer)</span>
-<span id="cb6-48"><a href="#cb6-48"></a>              (<span class="st">"C-c e r r"</span> . eglot-rename))</span>
-<span id="cb6-49"><a href="#cb6-49"></a>             )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource lisp number-lines code-with-copy"><code class="sourceCode commonlisp"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">;;; Eglot settings</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="co">;;;</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="co">;;; https://joaotavora.github.io/eglot/ / https://github.com/joaotavora/eglot</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="co">;;;</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="co">;;; Language Servers</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co">;;; ----------------</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="co">;;;</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="co">;;; Bash https://github.com/bash-lsp/bash-language-server</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="co">;;; Dockerfile https://github.com/rcjsuen/dockerfile-language-server-nodejs</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="co">;;; JSON https://github.com/hrsh7th/vscode-langservers-extracted</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="co">;;; Markdown https://github.com/artempyanykh/marksman</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="co">;;; Python https://github.com/pappasam/jedi-language-server</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="co">;;; R https://cran.r-project.org/package=languageserver</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a><span class="co">;;; Rust https://github.com/rust-analyzer/rust-analyzer</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a><span class="co">;;; Tex/LaTeX https://github.com/astoff/digestif</span></span>
+<span id="cb7-16"><a href="#cb7-16"></a><span class="co">;;; YAML https://github.com/redhat-developer/yaml-language-server</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a><span class="co">;;;</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a><span class="co">;;; Org-mode isn't yet supported but see https://github.com/joaotavora/eglot/issues/523</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a></span>
+<span id="cb7-20"><a href="#cb7-20"></a></span>
+<span id="cb7-21"><a href="#cb7-21"></a>(<span class="kw">use-package</span> eglot</span>
+<span id="cb7-22"><a href="#cb7-22"></a>         :ensure <span class="kw">t</span></span>
+<span id="cb7-23"><a href="#cb7-23"></a>         :defer <span class="kw">t</span></span>
+<span id="cb7-24"><a href="#cb7-24"></a>         :config</span>
+<span id="cb7-25"><a href="#cb7-25"></a>         (define-key global-map (kbd <span class="st">"C-c E"</span>) (make-sparse-keymap))</span>
+<span id="cb7-26"><a href="#cb7-26"></a>         (add-to-list 'eglot-server-programs '(python-mode . (<span class="st">"jedi-language-server"</span>)))</span>
+<span id="cb7-27"><a href="#cb7-27"></a>         :init</span>
+<span id="cb7-28"><a href="#cb7-28"></a>         (<span class="kw">setq</span> lsp-keymap-prefix <span class="st">"C-c l"</span></span>
+<span id="cb7-29"><a href="#cb7-29"></a>           lsp-bash-highlight-parsing-errors <span class="kw">t</span></span>
+<span id="cb7-30"><a href="#cb7-30"></a>           lsp-pylsp-plugins-pylint-args [<span class="st">"--rcfile=/home/neil/dotfiles/python/.pylintrc"</span>])</span>
+<span id="cb7-31"><a href="#cb7-31"></a>         :hook</span>
+<span id="cb7-32"><a href="#cb7-32"></a>         ((bash-mode . eglot-ensure)</span>
+<span id="cb7-33"><a href="#cb7-33"></a>          (ess-r-mode . eglot-ensure)</span>
+<span id="cb7-34"><a href="#cb7-34"></a>          (html-mode . eglot-ensure)</span>
+<span id="cb7-35"><a href="#cb7-35"></a>          (latex-mode . eglot-ensure)</span>
+<span id="cb7-36"><a href="#cb7-36"></a>          (markdown-mode . eglot-ensure)</span>
+<span id="cb7-37"><a href="#cb7-37"></a>          (python-mode . eglot-ensure)</span>
+<span id="cb7-38"><a href="#cb7-38"></a>          (R-mode . eglot-ensure)</span>
+<span id="cb7-39"><a href="#cb7-39"></a>          (rust-mode . eglot-ensure)</span>
+<span id="cb7-40"><a href="#cb7-40"></a>          (sh-mode . eglot-ensure))</span>
+<span id="cb7-41"><a href="#cb7-41"></a>             :bind</span>
+<span id="cb7-42"><a href="#cb7-42"></a>             ((<span class="st">"C-c e l"</span> . eglot)</span>
+<span id="cb7-43"><a href="#cb7-43"></a>              (<span class="st">"C-c e c"</span> . eglot-reconnect)</span>
+<span id="cb7-44"><a href="#cb7-44"></a>          (<span class="st">"C-c e s"</span> . eglot-shutdown)</span>
+<span id="cb7-45"><a href="#cb7-45"></a>              (<span class="st">"C-c e d"</span> . flymake-show-buffer-diagnostics)</span>
+<span id="cb7-46"><a href="#cb7-46"></a>              (<span class="st">"C-c e f f"</span> . eglot-format)</span>
+<span id="cb7-47"><a href="#cb7-47"></a>              (<span class="st">"C-c e f b"</span> . eglot-format-buffer)</span>
+<span id="cb7-48"><a href="#cb7-48"></a>              (<span class="st">"C-c e r r"</span> . eglot-rename))</span>
+<span id="cb7-49"><a href="#cb7-49"></a>             )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="centaur-tabs" class="slide level2 scrollable">
 <h2><a href="https://github.com/ema2159/centaur-tabs">Centaur Tabs</a></h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource lisp number-lines code-with-copy"><code class="sourceCode commonlisp"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">;; CENTAUR TABS CONFIGURATION</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="co">;; --------------------------------------</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="co">;; https://github.com/ema2159/centaur-tabs</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a>(<span class="kw">use-package</span> centaur-tabs</span>
-<span id="cb7-5"><a href="#cb7-5"></a>         :demand</span>
-<span id="cb7-6"><a href="#cb7-6"></a>         :config</span>
-<span id="cb7-7"><a href="#cb7-7"></a>         (centaur-tabs-mode <span class="kw">t</span>)</span>
-<span id="cb7-8"><a href="#cb7-8"></a>         :init</span>
-<span id="cb7-9"><a href="#cb7-9"></a>         (<span class="kw">setq</span> centaur-tabs-enable-key-bindings <span class="kw">t</span></span>
-<span id="cb7-10"><a href="#cb7-10"></a>               centaur-tabs-style <span class="st">"wave"</span></span>
-<span id="cb7-11"><a href="#cb7-11"></a>               centaur-tabs-set-icons <span class="kw">t</span></span>
-<span id="cb7-12"><a href="#cb7-12"></a>               centaur-tabs-set-bar 'under</span>
-<span id="cb7-13"><a href="#cb7-13"></a>               x-underline-at-descent-line <span class="kw">t</span></span>
-<span id="cb7-14"><a href="#cb7-14"></a>               centaur-tabs-cycle-scope 'default</span>
-<span id="cb7-15"><a href="#cb7-15"></a>           centaur-tabs-set-modified-marker <span class="kw">t</span></span>
-<span id="cb7-16"><a href="#cb7-16"></a>           centaur-tabs-modified-marker <span class="st">"⏺"</span>)</span>
-<span id="cb7-17"><a href="#cb7-17"></a>         :bind</span>
-<span id="cb7-18"><a href="#cb7-18"></a>         (<span class="st">"C-&lt;prior&gt;"</span> . centaur-tabs-backward)</span>
-<span id="cb7-19"><a href="#cb7-19"></a>         (<span class="st">"C-&lt;next&gt;"</span> . centaur-tabs-forward)</span>
-<span id="cb7-20"><a href="#cb7-20"></a>             )</span>
-<span id="cb7-21"><a href="#cb7-21"></a></span>
-<span id="cb7-22"><a href="#cb7-22"></a></span>
-<span id="cb7-23"><a href="#cb7-23"></a>(<span class="kw">defun</span><span class="fu"> centaur-tabs-buffer-groups </span>()</span>
-<span id="cb7-24"><a href="#cb7-24"></a>  <span class="st">"`centaur-tabs-buffer-groups' control buffers' group rules.</span></span>
-<span id="cb7-25"><a href="#cb7-25"></a><span class="st">;;     Group centaur-tabs with mode if buffer is derived from `eshell-mode' `emacs-lisp-mode' `dired-mode' `org-mode' `magit-mode'.</span></span>
-<span id="cb7-26"><a href="#cb7-26"></a><span class="st">;;     All buffer name start with * will group to </span><span class="sc">\"</span><span class="st">Emacs</span><span class="sc">\"</span><span class="st">.</span></span>
-<span id="cb7-27"><a href="#cb7-27"></a><span class="st">;;     Other buffer group by `centaur-tabs-get-group-name' with project name."</span></span>
-<span id="cb7-28"><a href="#cb7-28"></a>  (<span class="kw">list</span></span>
-<span id="cb7-29"><a href="#cb7-29"></a>   (<span class="kw">cond</span></span>
-<span id="cb7-30"><a href="#cb7-30"></a>    <span class="co">;;; Attempts to group mastodon buffers, not working 2023-01-02</span></span>
-<span id="cb7-31"><a href="#cb7-31"></a>    <span class="co">;; ((string-equal "*mastodon" (substring (buffer-name) 0 8))</span></span>
-<span id="cb7-32"><a href="#cb7-32"></a>    <span class="co">;;  "Mastodon")</span></span>
-<span id="cb7-33"><a href="#cb7-33"></a>    ((<span class="kw">or</span> (<span class="kw">string-equal</span> <span class="st">"*"</span> (substring (buffer-name) <span class="dv">0</span> <span class="dv">1</span>))</span>
-<span id="cb7-34"><a href="#cb7-34"></a>     (memq major-mode '(magit-process-mode</span>
-<span id="cb7-35"><a href="#cb7-35"></a>                magit-status-mode</span>
-<span id="cb7-36"><a href="#cb7-36"></a>                magit-diff-mode</span>
-<span id="cb7-37"><a href="#cb7-37"></a>                magit-log-mode</span>
-<span id="cb7-38"><a href="#cb7-38"></a>                magit-file-mode</span>
-<span id="cb7-39"><a href="#cb7-39"></a>                magit-blob-mode</span>
-<span id="cb7-40"><a href="#cb7-40"></a>                magit-blame-mode)))</span>
-<span id="cb7-41"><a href="#cb7-41"></a>     <span class="st">"Emacs"</span>)</span>
-<span id="cb7-42"><a href="#cb7-42"></a>    <span class="co">;; ((derived-mode-p 'prog-mode) "Editing")</span></span>
-<span id="cb7-43"><a href="#cb7-43"></a>    <span class="co">;; ((memq major-mode '(python-mode)) "Python")</span></span>
-<span id="cb7-44"><a href="#cb7-44"></a>    <span class="co">;;; Following attempts to split magit buffers out to their own group, not working 2023-01-02</span></span>
-<span id="cb7-45"><a href="#cb7-45"></a>    <span class="co">;; ((string-equal "*" (substring (buffer-name) 0 1))</span></span>
-<span id="cb7-46"><a href="#cb7-46"></a>    <span class="co">;;  "Emacs")</span></span>
-<span id="cb7-47"><a href="#cb7-47"></a>    <span class="co">;; ((string-equal "magit" (substring (buffer-name) 0 4)) "Magit")</span></span>
-<span id="cb7-48"><a href="#cb7-48"></a>    <span class="co">;; ((memq major-mode '(magit-process-mode</span></span>
-<span id="cb7-49"><a href="#cb7-49"></a>    <span class="co">;;                  magit-status-mode</span></span>
-<span id="cb7-50"><a href="#cb7-50"></a>    <span class="co">;;                  magit-diff-mode</span></span>
-<span id="cb7-51"><a href="#cb7-51"></a>    <span class="co">;;                  magit-log-mode</span></span>
-<span id="cb7-52"><a href="#cb7-52"></a>    <span class="co">;;                  magit-file-mode</span></span>
-<span id="cb7-53"><a href="#cb7-53"></a>    <span class="co">;;                  magit-blob-mode</span></span>
-<span id="cb7-54"><a href="#cb7-54"></a>    <span class="co">;;                  magit-blame-mode))</span></span>
-<span id="cb7-55"><a href="#cb7-55"></a>    <span class="co">;;  "Magit")</span></span>
-<span id="cb7-56"><a href="#cb7-56"></a>    <span class="co">;; ((derived-mode-p 'dired-mode) "Dired")</span></span>
-<span id="cb7-57"><a href="#cb7-57"></a>    ((memq major-mode '(helpful-mode</span>
-<span id="cb7-58"><a href="#cb7-58"></a>                        help-mode))</span>
-<span id="cb7-59"><a href="#cb7-59"></a>     <span class="st">"Help"</span>)</span>
-<span id="cb7-60"><a href="#cb7-60"></a>    ((memq major-mode '(org-mode</span>
-<span id="cb7-61"><a href="#cb7-61"></a>            org-agenda-clockreport-mode</span>
-<span id="cb7-62"><a href="#cb7-62"></a>            org-src-mode</span>
-<span id="cb7-63"><a href="#cb7-63"></a>            org-agenda-mode</span>
-<span id="cb7-64"><a href="#cb7-64"></a>            org-beamer-mode</span>
-<span id="cb7-65"><a href="#cb7-65"></a>            org-indent-mode</span>
-<span id="cb7-66"><a href="#cb7-66"></a>            org-bullets-mode</span>
-<span id="cb7-67"><a href="#cb7-67"></a>            org-cdlatex-mode</span>
-<span id="cb7-68"><a href="#cb7-68"></a>            org-agenda-log-mode</span>
-<span id="cb7-69"><a href="#cb7-69"></a>            diary-mode))</span>
-<span id="cb7-70"><a href="#cb7-70"></a>     <span class="st">"OrgMode"</span>)</span>
-<span id="cb7-71"><a href="#cb7-71"></a>    (<span class="kw">t</span></span>
-<span id="cb7-72"><a href="#cb7-72"></a>     (centaur-tabs-get-group-name (current-buffer))))))</span>
-<span id="cb7-73"><a href="#cb7-73"></a></span>
-<span id="cb7-74"><a href="#cb7-74"></a>(<span class="kw">defun</span><span class="fu"> centaur-tabs-hide-tab </span>(x)</span>
-<span id="cb7-75"><a href="#cb7-75"></a>  <span class="st">"Do no to show buffer X in tabs."</span></span>
-<span id="cb7-76"><a href="#cb7-76"></a>  (<span class="kw">let</span> ((name (<span class="kw">format</span> <span class="st">"%s"</span> x)))</span>
-<span id="cb7-77"><a href="#cb7-77"></a>    (<span class="kw">or</span></span>
-<span id="cb7-78"><a href="#cb7-78"></a>     <span class="co">;; Current window is not dedicated window.</span></span>
-<span id="cb7-79"><a href="#cb7-79"></a>     (window-dedicated-p (selected-window))</span>
-<span id="cb7-80"><a href="#cb7-80"></a>     <span class="co">;; Buffer name not match below blacklist.</span></span>
-<span id="cb7-81"><a href="#cb7-81"></a>     (string-prefix-p <span class="st">"*epc"</span> name)</span>
-<span id="cb7-82"><a href="#cb7-82"></a>     (string-prefix-p <span class="st">"*helm"</span> name)</span>
-<span id="cb7-83"><a href="#cb7-83"></a>     (string-prefix-p <span class="st">"*Helm"</span> name)</span>
-<span id="cb7-84"><a href="#cb7-84"></a>     (string-prefix-p <span class="st">"*Compile-Log*"</span> name)</span>
-<span id="cb7-85"><a href="#cb7-85"></a>     (string-prefix-p <span class="st">"*lsp"</span> name)</span>
-<span id="cb7-86"><a href="#cb7-86"></a>     (string-prefix-p <span class="st">"*company"</span> name)</span>
-<span id="cb7-87"><a href="#cb7-87"></a>     (string-prefix-p <span class="st">"*Flycheck"</span> name)</span>
-<span id="cb7-88"><a href="#cb7-88"></a>     (string-prefix-p <span class="st">"*tramp"</span> name)</span>
-<span id="cb7-89"><a href="#cb7-89"></a>     (string-prefix-p <span class="st">" *Mini"</span> name)</span>
-<span id="cb7-90"><a href="#cb7-90"></a>     (string-prefix-p <span class="st">"*help"</span> name)</span>
-<span id="cb7-91"><a href="#cb7-91"></a>     (string-prefix-p <span class="st">"*straight"</span> name)</span>
-<span id="cb7-92"><a href="#cb7-92"></a>     (string-prefix-p <span class="st">"*temp"</span> name)</span>
-<span id="cb7-93"><a href="#cb7-93"></a>     (string-prefix-p <span class="st">"*Help"</span> name)</span>
-<span id="cb7-94"><a href="#cb7-94"></a>     (string-prefix-p <span class="st">"*mybuf"</span> name)</span>
-<span id="cb7-95"><a href="#cb7-95"></a>     <span class="co">;; Is not magit buffer.</span></span>
-<span id="cb7-96"><a href="#cb7-96"></a>     (<span class="kw">and</span> (string-prefix-p <span class="st">"magit"</span> name)</span>
-<span id="cb7-97"><a href="#cb7-97"></a>      (<span class="kw">not</span> (file-name-extension name)))</span>
-<span id="cb7-98"><a href="#cb7-98"></a>     )))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource lisp number-lines code-with-copy"><code class="sourceCode commonlisp"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">;; CENTAUR TABS CONFIGURATION</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="co">;; --------------------------------------</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="co">;; https://github.com/ema2159/centaur-tabs</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a>(<span class="kw">use-package</span> centaur-tabs</span>
+<span id="cb8-5"><a href="#cb8-5"></a>         :demand</span>
+<span id="cb8-6"><a href="#cb8-6"></a>         :config</span>
+<span id="cb8-7"><a href="#cb8-7"></a>         (centaur-tabs-mode <span class="kw">t</span>)</span>
+<span id="cb8-8"><a href="#cb8-8"></a>         :init</span>
+<span id="cb8-9"><a href="#cb8-9"></a>         (<span class="kw">setq</span> centaur-tabs-enable-key-bindings <span class="kw">t</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a>               centaur-tabs-style <span class="st">"wave"</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a>               centaur-tabs-set-icons <span class="kw">t</span></span>
+<span id="cb8-12"><a href="#cb8-12"></a>               centaur-tabs-set-bar 'under</span>
+<span id="cb8-13"><a href="#cb8-13"></a>               x-underline-at-descent-line <span class="kw">t</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a>               centaur-tabs-cycle-scope 'default</span>
+<span id="cb8-15"><a href="#cb8-15"></a>           centaur-tabs-set-modified-marker <span class="kw">t</span></span>
+<span id="cb8-16"><a href="#cb8-16"></a>           centaur-tabs-modified-marker <span class="st">"⏺"</span>)</span>
+<span id="cb8-17"><a href="#cb8-17"></a>         :bind</span>
+<span id="cb8-18"><a href="#cb8-18"></a>         (<span class="st">"C-&lt;prior&gt;"</span> . centaur-tabs-backward)</span>
+<span id="cb8-19"><a href="#cb8-19"></a>         (<span class="st">"C-&lt;next&gt;"</span> . centaur-tabs-forward)</span>
+<span id="cb8-20"><a href="#cb8-20"></a>             )</span>
+<span id="cb8-21"><a href="#cb8-21"></a></span>
+<span id="cb8-22"><a href="#cb8-22"></a></span>
+<span id="cb8-23"><a href="#cb8-23"></a>(<span class="kw">defun</span><span class="fu"> centaur-tabs-buffer-groups </span>()</span>
+<span id="cb8-24"><a href="#cb8-24"></a>  <span class="st">"`centaur-tabs-buffer-groups' control buffers' group rules.</span></span>
+<span id="cb8-25"><a href="#cb8-25"></a><span class="st">;;     Group centaur-tabs with mode if buffer is derived from `eshell-mode' `emacs-lisp-mode' `dired-mode' `org-mode' `magit-mode'.</span></span>
+<span id="cb8-26"><a href="#cb8-26"></a><span class="st">;;     All buffer name start with * will group to </span><span class="sc">\"</span><span class="st">Emacs</span><span class="sc">\"</span><span class="st">.</span></span>
+<span id="cb8-27"><a href="#cb8-27"></a><span class="st">;;     Other buffer group by `centaur-tabs-get-group-name' with project name."</span></span>
+<span id="cb8-28"><a href="#cb8-28"></a>  (<span class="kw">list</span></span>
+<span id="cb8-29"><a href="#cb8-29"></a>   (<span class="kw">cond</span></span>
+<span id="cb8-30"><a href="#cb8-30"></a>    <span class="co">;;; Attempts to group mastodon buffers, not working 2023-01-02</span></span>
+<span id="cb8-31"><a href="#cb8-31"></a>    <span class="co">;; ((string-equal "*mastodon" (substring (buffer-name) 0 8))</span></span>
+<span id="cb8-32"><a href="#cb8-32"></a>    <span class="co">;;  "Mastodon")</span></span>
+<span id="cb8-33"><a href="#cb8-33"></a>    ((<span class="kw">or</span> (<span class="kw">string-equal</span> <span class="st">"*"</span> (substring (buffer-name) <span class="dv">0</span> <span class="dv">1</span>))</span>
+<span id="cb8-34"><a href="#cb8-34"></a>     (memq major-mode '(magit-process-mode</span>
+<span id="cb8-35"><a href="#cb8-35"></a>                magit-status-mode</span>
+<span id="cb8-36"><a href="#cb8-36"></a>                magit-diff-mode</span>
+<span id="cb8-37"><a href="#cb8-37"></a>                magit-log-mode</span>
+<span id="cb8-38"><a href="#cb8-38"></a>                magit-file-mode</span>
+<span id="cb8-39"><a href="#cb8-39"></a>                magit-blob-mode</span>
+<span id="cb8-40"><a href="#cb8-40"></a>                magit-blame-mode)))</span>
+<span id="cb8-41"><a href="#cb8-41"></a>     <span class="st">"Emacs"</span>)</span>
+<span id="cb8-42"><a href="#cb8-42"></a>    <span class="co">;; ((derived-mode-p 'prog-mode) "Editing")</span></span>
+<span id="cb8-43"><a href="#cb8-43"></a>    <span class="co">;; ((memq major-mode '(python-mode)) "Python")</span></span>
+<span id="cb8-44"><a href="#cb8-44"></a>    <span class="co">;;; Following attempts to split magit buffers out to their own group, not working 2023-01-02</span></span>
+<span id="cb8-45"><a href="#cb8-45"></a>    <span class="co">;; ((string-equal "*" (substring (buffer-name) 0 1))</span></span>
+<span id="cb8-46"><a href="#cb8-46"></a>    <span class="co">;;  "Emacs")</span></span>
+<span id="cb8-47"><a href="#cb8-47"></a>    <span class="co">;; ((string-equal "magit" (substring (buffer-name) 0 4)) "Magit")</span></span>
+<span id="cb8-48"><a href="#cb8-48"></a>    <span class="co">;; ((memq major-mode '(magit-process-mode</span></span>
+<span id="cb8-49"><a href="#cb8-49"></a>    <span class="co">;;                  magit-status-mode</span></span>
+<span id="cb8-50"><a href="#cb8-50"></a>    <span class="co">;;                  magit-diff-mode</span></span>
+<span id="cb8-51"><a href="#cb8-51"></a>    <span class="co">;;                  magit-log-mode</span></span>
+<span id="cb8-52"><a href="#cb8-52"></a>    <span class="co">;;                  magit-file-mode</span></span>
+<span id="cb8-53"><a href="#cb8-53"></a>    <span class="co">;;                  magit-blob-mode</span></span>
+<span id="cb8-54"><a href="#cb8-54"></a>    <span class="co">;;                  magit-blame-mode))</span></span>
+<span id="cb8-55"><a href="#cb8-55"></a>    <span class="co">;;  "Magit")</span></span>
+<span id="cb8-56"><a href="#cb8-56"></a>    <span class="co">;; ((derived-mode-p 'dired-mode) "Dired")</span></span>
+<span id="cb8-57"><a href="#cb8-57"></a>    ((memq major-mode '(helpful-mode</span>
+<span id="cb8-58"><a href="#cb8-58"></a>                        help-mode))</span>
+<span id="cb8-59"><a href="#cb8-59"></a>     <span class="st">"Help"</span>)</span>
+<span id="cb8-60"><a href="#cb8-60"></a>    ((memq major-mode '(org-mode</span>
+<span id="cb8-61"><a href="#cb8-61"></a>            org-agenda-clockreport-mode</span>
+<span id="cb8-62"><a href="#cb8-62"></a>            org-src-mode</span>
+<span id="cb8-63"><a href="#cb8-63"></a>            org-agenda-mode</span>
+<span id="cb8-64"><a href="#cb8-64"></a>            org-beamer-mode</span>
+<span id="cb8-65"><a href="#cb8-65"></a>            org-indent-mode</span>
+<span id="cb8-66"><a href="#cb8-66"></a>            org-bullets-mode</span>
+<span id="cb8-67"><a href="#cb8-67"></a>            org-cdlatex-mode</span>
+<span id="cb8-68"><a href="#cb8-68"></a>            org-agenda-log-mode</span>
+<span id="cb8-69"><a href="#cb8-69"></a>            diary-mode))</span>
+<span id="cb8-70"><a href="#cb8-70"></a>     <span class="st">"OrgMode"</span>)</span>
+<span id="cb8-71"><a href="#cb8-71"></a>    (<span class="kw">t</span></span>
+<span id="cb8-72"><a href="#cb8-72"></a>     (centaur-tabs-get-group-name (current-buffer))))))</span>
+<span id="cb8-73"><a href="#cb8-73"></a></span>
+<span id="cb8-74"><a href="#cb8-74"></a>(<span class="kw">defun</span><span class="fu"> centaur-tabs-hide-tab </span>(x)</span>
+<span id="cb8-75"><a href="#cb8-75"></a>  <span class="st">"Do no to show buffer X in tabs."</span></span>
+<span id="cb8-76"><a href="#cb8-76"></a>  (<span class="kw">let</span> ((name (<span class="kw">format</span> <span class="st">"%s"</span> x)))</span>
+<span id="cb8-77"><a href="#cb8-77"></a>    (<span class="kw">or</span></span>
+<span id="cb8-78"><a href="#cb8-78"></a>     <span class="co">;; Current window is not dedicated window.</span></span>
+<span id="cb8-79"><a href="#cb8-79"></a>     (window-dedicated-p (selected-window))</span>
+<span id="cb8-80"><a href="#cb8-80"></a>     <span class="co">;; Buffer name not match below blacklist.</span></span>
+<span id="cb8-81"><a href="#cb8-81"></a>     (string-prefix-p <span class="st">"*epc"</span> name)</span>
+<span id="cb8-82"><a href="#cb8-82"></a>     (string-prefix-p <span class="st">"*helm"</span> name)</span>
+<span id="cb8-83"><a href="#cb8-83"></a>     (string-prefix-p <span class="st">"*Helm"</span> name)</span>
+<span id="cb8-84"><a href="#cb8-84"></a>     (string-prefix-p <span class="st">"*Compile-Log*"</span> name)</span>
+<span id="cb8-85"><a href="#cb8-85"></a>     (string-prefix-p <span class="st">"*lsp"</span> name)</span>
+<span id="cb8-86"><a href="#cb8-86"></a>     (string-prefix-p <span class="st">"*company"</span> name)</span>
+<span id="cb8-87"><a href="#cb8-87"></a>     (string-prefix-p <span class="st">"*Flycheck"</span> name)</span>
+<span id="cb8-88"><a href="#cb8-88"></a>     (string-prefix-p <span class="st">"*tramp"</span> name)</span>
+<span id="cb8-89"><a href="#cb8-89"></a>     (string-prefix-p <span class="st">" *Mini"</span> name)</span>
+<span id="cb8-90"><a href="#cb8-90"></a>     (string-prefix-p <span class="st">"*help"</span> name)</span>
+<span id="cb8-91"><a href="#cb8-91"></a>     (string-prefix-p <span class="st">"*straight"</span> name)</span>
+<span id="cb8-92"><a href="#cb8-92"></a>     (string-prefix-p <span class="st">"*temp"</span> name)</span>
+<span id="cb8-93"><a href="#cb8-93"></a>     (string-prefix-p <span class="st">"*Help"</span> name)</span>
+<span id="cb8-94"><a href="#cb8-94"></a>     (string-prefix-p <span class="st">"*mybuf"</span> name)</span>
+<span id="cb8-95"><a href="#cb8-95"></a>     <span class="co">;; Is not magit buffer.</span></span>
+<span id="cb8-96"><a href="#cb8-96"></a>     (<span class="kw">and</span> (string-prefix-p <span class="st">"magit"</span> name)</span>
+<span id="cb8-97"><a href="#cb8-97"></a>      (<span class="kw">not</span> (file-name-extension name)))</span>
+<span id="cb8-98"><a href="#cb8-98"></a>     )))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="emacs-speaks-statistics" class="slide level2 scrollable">
 <h2><a href="https://ess.r-project.org">Emacs Speaks Statistics</a></h2>
 <p>Been around for a long time (&gt;20 years). Includes <a href="https://github.com/quarto-dev/quarto-emacs">quarto-mode</a>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource lisp number-lines code-with-copy"><code class="sourceCode commonlisp"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">;; ESS CONFIGURATION</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="co">;; --------------------------------------</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="co">;;</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="co">;; Useful pages to read on configuration of ESS and sometimes LSP mode</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="co">;;</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="co">;; ESS</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="co">;; https://weikaichen.gitee.io/notes/emacs-ess-r/</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="co">;;</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a><span class="co">;; + lsp-mode</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a><span class="co">;; https://github.com/emacs-ess/ESS/issues/809</span></span>
-<span id="cb8-11"><a href="#cb8-11"></a><span class="co">;; https://github.com/emacs-lsp/lsp-mode/issues/1383#issue-560006302</span></span>
-<span id="cb8-12"><a href="#cb8-12"></a><span class="co">;;</span></span>
-<span id="cb8-13"><a href="#cb8-13"></a><span class="co">;; Pipes and assignment customisation</span></span>
-<span id="cb8-14"><a href="#cb8-14"></a><span class="co">;;</span></span>
-<span id="cb8-15"><a href="#cb8-15"></a><span class="co">;; https://emacs.stackexchange.com/a/8055</span></span>
-<span id="cb8-16"><a href="#cb8-16"></a><span class="co">;; Notes on underscore for assignment</span></span>
-<span id="cb8-17"><a href="#cb8-17"></a><span class="co">;;</span></span>
-<span id="cb8-18"><a href="#cb8-18"></a><span class="co">;; https://emacs.stackexchange.com/questions/48134/ess-smart-underscore-does-not-work-in-emacs25)</span></span>
-<span id="cb8-19"><a href="#cb8-19"></a><span class="co">;; https://github.com/emacs-ess/ESS/issues/809</span></span>
-<span id="cb8-20"><a href="#cb8-20"></a><span class="co">;; https://chainsawriot.com/postmannheim/2022/12/24/aoe24.html</span></span>
-<span id="cb8-21"><a href="#cb8-21"></a><span class="co">;; https://emacs.stackexchange.com/a/65148</span></span>
-<span id="cb8-22"><a href="#cb8-22"></a><span class="co">;; https://github.com/emacs-ess/ESS/issues/809#issuecomment-453538386</span></span>
-<span id="cb8-23"><a href="#cb8-23"></a><span class="co">;;</span></span>
-<span id="cb8-24"><a href="#cb8-24"></a><span class="co">;; Plots in Emacs buffers</span></span>
-<span id="cb8-25"><a href="#cb8-25"></a><span class="co">;; https://emacs.stackexchange.com/questions/2292/ess-plot-directly-to-an-emacs-buffer</span></span>
-<span id="cb8-26"><a href="#cb8-26"></a><span class="co">;;</span></span>
-<span id="cb8-27"><a href="#cb8-27"></a><span class="co">;; Better still plots in the browser</span></span>
-<span id="cb8-28"><a href="#cb8-28"></a><span class="co">;;</span></span>
-<span id="cb8-29"><a href="#cb8-29"></a><span class="co">;; https://www.youtube.com/watch?v=uxyhmhRVOfw</span></span>
-<span id="cb8-30"><a href="#cb8-30"></a>(<span class="kw">use-package</span> ess</span>
-<span id="cb8-31"><a href="#cb8-31"></a>         :ensure <span class="kw">t</span></span>
-<span id="cb8-32"><a href="#cb8-32"></a>         <span class="co">;; :defer 1</span></span>
-<span id="cb8-33"><a href="#cb8-33"></a>             <span class="co">;;     :requires ess-r-mode</span></span>
-<span id="cb8-34"><a href="#cb8-34"></a>             <span class="co">;;     ess-r-package</span></span>
-<span id="cb8-35"><a href="#cb8-35"></a>         :init</span>
-<span id="cb8-36"><a href="#cb8-36"></a>         :mode ((<span class="st">"/R/.*</span><span class="sc">\\</span><span class="st">.q</span><span class="sc">\\</span><span class="st">'"</span>       . R-mode)</span>
-<span id="cb8-37"><a href="#cb8-37"></a>            (<span class="st">"</span><span class="sc">\\</span><span class="st">.[rR]</span><span class="sc">\\</span><span class="st">'"</span>         . R-mode)</span>
-<span id="cb8-38"><a href="#cb8-38"></a>            (<span class="st">"</span><span class="sc">\\</span><span class="st">.[rR]profile</span><span class="sc">\\</span><span class="st">'"</span>  . R-mode)</span>
-<span id="cb8-39"><a href="#cb8-39"></a>            (<span class="st">"NAMESPACE</span><span class="sc">\\</span><span class="st">'"</span>       . R-mode)</span>
-<span id="cb8-40"><a href="#cb8-40"></a>            (<span class="st">"CITATION</span><span class="sc">\\</span><span class="st">'"</span>        . R-mode)</span>
-<span id="cb8-41"><a href="#cb8-41"></a>            (<span class="st">"</span><span class="sc">\\</span><span class="st">.[Rr]out"</span>         . R-transcript-mode)</span>
-<span id="cb8-42"><a href="#cb8-42"></a>            (<span class="st">"</span><span class="sc">\\</span><span class="st">.Rmd</span><span class="sc">\\</span><span class="st">'"</span>          . Rd-mode)</span>
-<span id="cb8-43"><a href="#cb8-43"></a>            (<span class="st">"</span><span class="sc">\\</span><span class="st">.Rd</span><span class="sc">\\</span><span class="st">'"</span>           . Rd-mode))</span>
-<span id="cb8-44"><a href="#cb8-44"></a>         :interpreter ((<span class="st">"R"</span> . R-mode)</span>
-<span id="cb8-45"><a href="#cb8-45"></a>               (<span class="st">"R"</span> . R-transcript-mode)</span>
-<span id="cb8-46"><a href="#cb8-46"></a>               (<span class="st">"R"</span> . Rd-mode))</span>
-<span id="cb8-47"><a href="#cb8-47"></a>         :config</span>
-<span id="cb8-48"><a href="#cb8-48"></a>             (<span class="kw">require</span> 'ess-r-mode)</span>
-<span id="cb8-49"><a href="#cb8-49"></a>             (<span class="kw">require</span> 'ess-r-package)</span>
-<span id="cb8-50"><a href="#cb8-50"></a>         (<span class="kw">setq</span> ess-r-backend 'lsp)</span>
-<span id="cb8-51"><a href="#cb8-51"></a>         (<span class="kw">setq</span> comint-input-ring-size <span class="dv">1000</span>)</span>
-<span id="cb8-52"><a href="#cb8-52"></a>         (<span class="kw">setq</span> ess-indent-offset <span class="dv">2</span>)</span>
-<span id="cb8-53"><a href="#cb8-53"></a>         (<span class="kw">setq</span> ess-eval-visibly-p <span class="kw">nil</span>)</span>
-<span id="cb8-54"><a href="#cb8-54"></a>             (<span class="kw">setq</span> ess-startup-directory <span class="kw">nil</span>)</span>
-<span id="cb8-55"><a href="#cb8-55"></a>         (<span class="kw">setq</span> ess-ask-for-ess-directory <span class="kw">nil</span>)</span>
-<span id="cb8-56"><a href="#cb8-56"></a>         (<span class="kw">setq</span> ess-togggle-underscore <span class="kw">nil</span>)</span>
-<span id="cb8-57"><a href="#cb8-57"></a>         (<span class="kw">setq</span> ess-eval-visibly 'nowait)</span>
-<span id="cb8-58"><a href="#cb8-58"></a>             (<span class="kw">setq</span> ess-use-tracebug <span class="kw">nil</span>)</span>
-<span id="cb8-59"><a href="#cb8-59"></a>         :hook</span>
-<span id="cb8-60"><a href="#cb8-60"></a>         (ess-mode . company-mode)</span>
-<span id="cb8-61"><a href="#cb8-61"></a>         (inferior-ess-mode . company-mode)</span>
-<span id="cb8-62"><a href="#cb8-62"></a>             :bind</span>
-<span id="cb8-63"><a href="#cb8-63"></a>             (:map ess-r-mode-map</span>
-<span id="cb8-64"><a href="#cb8-64"></a>           (<span class="st">"_"</span> . 'ess-insert-assign)  <span class="co">;;</span></span>
-<span id="cb8-65"><a href="#cb8-65"></a>           (<span class="st">"C-q"</span> . 'ess-eval-region-or-line-and-step)</span>
-<span id="cb8-66"><a href="#cb8-66"></a>           (<span class="st">"C-|"</span> . <span class="st">" |&gt;</span><span class="sc">\n</span><span class="st">"</span>))</span>
-<span id="cb8-67"><a href="#cb8-67"></a>             (:map inferior-ess-r-mode-map</span>
-<span id="cb8-68"><a href="#cb8-68"></a>           (<span class="st">"_"</span> . 'ess-insert-assign)</span>
-<span id="cb8-69"><a href="#cb8-69"></a>           (<span class="st">"C-|"</span> . <span class="st">" |&gt;</span><span class="sc">\n</span><span class="st">"</span>)))</span>
-<span id="cb8-70"><a href="#cb8-70"></a></span>
-<span id="cb8-71"><a href="#cb8-71"></a><span class="co">;; Quarto mode https://github.com/quarto-dev/quarto-emacs</span></span>
-<span id="cb8-72"><a href="#cb8-72"></a><span class="co">;; By default associated with .qmd files</span></span>
-<span id="cb8-73"><a href="#cb8-73"></a>(<span class="kw">use-package</span> quarto-mode</span>
-<span id="cb8-74"><a href="#cb8-74"></a>         :mode ((<span class="st">"</span><span class="sc">\\</span><span class="st">.Rmd"</span> . poly-quarto-mode))</span>
-<span id="cb8-75"><a href="#cb8-75"></a>         :bind ((<span class="st">"C-c q"</span> . quarto-preview)))</span>
-<span id="cb8-76"><a href="#cb8-76"></a></span>
-<span id="cb8-77"><a href="#cb8-77"></a></span>
-<span id="cb8-78"><a href="#cb8-78"></a><span class="co">;;; Set the width of the buffer automatically from</span></span>
-<span id="cb8-79"><a href="#cb8-79"></a><span class="co">;;; https://stat.ethz.ch/pipermail/ess-help/2009-July/005455.html</span></span>
-<span id="cb8-80"><a href="#cb8-80"></a>(<span class="kw">defun</span><span class="fu"> my-ess-post-run-hook </span>()</span>
-<span id="cb8-81"><a href="#cb8-81"></a>  (ess-execute-screen-options)</span>
-<span id="cb8-82"><a href="#cb8-82"></a>  (local-set-key <span class="st">"\C-cw"</span> 'ess-execute-screen-options))</span>
-<span id="cb8-83"><a href="#cb8-83"></a>(add-hook 'ess-post-run-hook 'my-ess-post-run-hook)</span>
-<span id="cb8-84"><a href="#cb8-84"></a><span class="co">;;; Auto-complete and ESS http://goo.gl/utAi2Z</span></span>
-<span id="cb8-85"><a href="#cb8-85"></a>(<span class="kw">use-package</span> auto-complete)</span>
-<span id="cb8-86"><a href="#cb8-86"></a><span class="co">;; (use-package auto-complete-config)</span></span>
-<span id="cb8-87"><a href="#cb8-87"></a><span class="co">;; (ac-config-default)</span></span>
-<span id="cb8-88"><a href="#cb8-88"></a>(auto-complete-mode)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource lisp number-lines code-with-copy"><code class="sourceCode commonlisp"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">;; ESS CONFIGURATION</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="co">;; --------------------------------------</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="co">;;</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="co">;; Useful pages to read on configuration of ESS and sometimes LSP mode</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="co">;;</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="co">;; ESS</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="co">;; https://weikaichen.gitee.io/notes/emacs-ess-r/</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="co">;;</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="co">;; + lsp-mode</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="co">;; https://github.com/emacs-ess/ESS/issues/809</span></span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="co">;; https://github.com/emacs-lsp/lsp-mode/issues/1383#issue-560006302</span></span>
+<span id="cb9-12"><a href="#cb9-12"></a><span class="co">;;</span></span>
+<span id="cb9-13"><a href="#cb9-13"></a><span class="co">;; Pipes and assignment customisation</span></span>
+<span id="cb9-14"><a href="#cb9-14"></a><span class="co">;;</span></span>
+<span id="cb9-15"><a href="#cb9-15"></a><span class="co">;; https://emacs.stackexchange.com/a/8055</span></span>
+<span id="cb9-16"><a href="#cb9-16"></a><span class="co">;; Notes on underscore for assignment</span></span>
+<span id="cb9-17"><a href="#cb9-17"></a><span class="co">;;</span></span>
+<span id="cb9-18"><a href="#cb9-18"></a><span class="co">;; https://emacs.stackexchange.com/questions/48134/ess-smart-underscore-does-not-work-in-emacs25)</span></span>
+<span id="cb9-19"><a href="#cb9-19"></a><span class="co">;; https://github.com/emacs-ess/ESS/issues/809</span></span>
+<span id="cb9-20"><a href="#cb9-20"></a><span class="co">;; https://chainsawriot.com/postmannheim/2022/12/24/aoe24.html</span></span>
+<span id="cb9-21"><a href="#cb9-21"></a><span class="co">;; https://emacs.stackexchange.com/a/65148</span></span>
+<span id="cb9-22"><a href="#cb9-22"></a><span class="co">;; https://github.com/emacs-ess/ESS/issues/809#issuecomment-453538386</span></span>
+<span id="cb9-23"><a href="#cb9-23"></a><span class="co">;;</span></span>
+<span id="cb9-24"><a href="#cb9-24"></a><span class="co">;; Plots in Emacs buffers</span></span>
+<span id="cb9-25"><a href="#cb9-25"></a><span class="co">;; https://emacs.stackexchange.com/questions/2292/ess-plot-directly-to-an-emacs-buffer</span></span>
+<span id="cb9-26"><a href="#cb9-26"></a><span class="co">;;</span></span>
+<span id="cb9-27"><a href="#cb9-27"></a><span class="co">;; Better still plots in the browser</span></span>
+<span id="cb9-28"><a href="#cb9-28"></a><span class="co">;;</span></span>
+<span id="cb9-29"><a href="#cb9-29"></a><span class="co">;; https://www.youtube.com/watch?v=uxyhmhRVOfw</span></span>
+<span id="cb9-30"><a href="#cb9-30"></a>(<span class="kw">use-package</span> ess</span>
+<span id="cb9-31"><a href="#cb9-31"></a>         :ensure <span class="kw">t</span></span>
+<span id="cb9-32"><a href="#cb9-32"></a>         <span class="co">;; :defer 1</span></span>
+<span id="cb9-33"><a href="#cb9-33"></a>             <span class="co">;;     :requires ess-r-mode</span></span>
+<span id="cb9-34"><a href="#cb9-34"></a>             <span class="co">;;     ess-r-package</span></span>
+<span id="cb9-35"><a href="#cb9-35"></a>         :init</span>
+<span id="cb9-36"><a href="#cb9-36"></a>         :mode ((<span class="st">"/R/.*</span><span class="sc">\\</span><span class="st">.q</span><span class="sc">\\</span><span class="st">'"</span>       . R-mode)</span>
+<span id="cb9-37"><a href="#cb9-37"></a>            (<span class="st">"</span><span class="sc">\\</span><span class="st">.[rR]</span><span class="sc">\\</span><span class="st">'"</span>         . R-mode)</span>
+<span id="cb9-38"><a href="#cb9-38"></a>            (<span class="st">"</span><span class="sc">\\</span><span class="st">.[rR]profile</span><span class="sc">\\</span><span class="st">'"</span>  . R-mode)</span>
+<span id="cb9-39"><a href="#cb9-39"></a>            (<span class="st">"NAMESPACE</span><span class="sc">\\</span><span class="st">'"</span>       . R-mode)</span>
+<span id="cb9-40"><a href="#cb9-40"></a>            (<span class="st">"CITATION</span><span class="sc">\\</span><span class="st">'"</span>        . R-mode)</span>
+<span id="cb9-41"><a href="#cb9-41"></a>            (<span class="st">"</span><span class="sc">\\</span><span class="st">.[Rr]out"</span>         . R-transcript-mode)</span>
+<span id="cb9-42"><a href="#cb9-42"></a>            (<span class="st">"</span><span class="sc">\\</span><span class="st">.Rmd</span><span class="sc">\\</span><span class="st">'"</span>          . Rd-mode)</span>
+<span id="cb9-43"><a href="#cb9-43"></a>            (<span class="st">"</span><span class="sc">\\</span><span class="st">.Rd</span><span class="sc">\\</span><span class="st">'"</span>           . Rd-mode))</span>
+<span id="cb9-44"><a href="#cb9-44"></a>         :interpreter ((<span class="st">"R"</span> . R-mode)</span>
+<span id="cb9-45"><a href="#cb9-45"></a>               (<span class="st">"R"</span> . R-transcript-mode)</span>
+<span id="cb9-46"><a href="#cb9-46"></a>               (<span class="st">"R"</span> . Rd-mode))</span>
+<span id="cb9-47"><a href="#cb9-47"></a>         :config</span>
+<span id="cb9-48"><a href="#cb9-48"></a>             (<span class="kw">require</span> 'ess-r-mode)</span>
+<span id="cb9-49"><a href="#cb9-49"></a>             (<span class="kw">require</span> 'ess-r-package)</span>
+<span id="cb9-50"><a href="#cb9-50"></a>         (<span class="kw">setq</span> ess-r-backend 'lsp)</span>
+<span id="cb9-51"><a href="#cb9-51"></a>         (<span class="kw">setq</span> comint-input-ring-size <span class="dv">1000</span>)</span>
+<span id="cb9-52"><a href="#cb9-52"></a>         (<span class="kw">setq</span> ess-indent-offset <span class="dv">2</span>)</span>
+<span id="cb9-53"><a href="#cb9-53"></a>         (<span class="kw">setq</span> ess-eval-visibly-p <span class="kw">nil</span>)</span>
+<span id="cb9-54"><a href="#cb9-54"></a>             (<span class="kw">setq</span> ess-startup-directory <span class="kw">nil</span>)</span>
+<span id="cb9-55"><a href="#cb9-55"></a>         (<span class="kw">setq</span> ess-ask-for-ess-directory <span class="kw">nil</span>)</span>
+<span id="cb9-56"><a href="#cb9-56"></a>         (<span class="kw">setq</span> ess-togggle-underscore <span class="kw">nil</span>)</span>
+<span id="cb9-57"><a href="#cb9-57"></a>         (<span class="kw">setq</span> ess-eval-visibly 'nowait)</span>
+<span id="cb9-58"><a href="#cb9-58"></a>             (<span class="kw">setq</span> ess-use-tracebug <span class="kw">nil</span>)</span>
+<span id="cb9-59"><a href="#cb9-59"></a>         :hook</span>
+<span id="cb9-60"><a href="#cb9-60"></a>         (ess-mode . company-mode)</span>
+<span id="cb9-61"><a href="#cb9-61"></a>         (inferior-ess-mode . company-mode)</span>
+<span id="cb9-62"><a href="#cb9-62"></a>             :bind</span>
+<span id="cb9-63"><a href="#cb9-63"></a>             (:map ess-r-mode-map</span>
+<span id="cb9-64"><a href="#cb9-64"></a>           (<span class="st">"_"</span> . 'ess-insert-assign)  <span class="co">;;</span></span>
+<span id="cb9-65"><a href="#cb9-65"></a>           (<span class="st">"C-q"</span> . 'ess-eval-region-or-line-and-step)</span>
+<span id="cb9-66"><a href="#cb9-66"></a>           (<span class="st">"C-|"</span> . <span class="st">" |&gt;</span><span class="sc">\n</span><span class="st">"</span>))</span>
+<span id="cb9-67"><a href="#cb9-67"></a>             (:map inferior-ess-r-mode-map</span>
+<span id="cb9-68"><a href="#cb9-68"></a>           (<span class="st">"_"</span> . 'ess-insert-assign)</span>
+<span id="cb9-69"><a href="#cb9-69"></a>           (<span class="st">"C-|"</span> . <span class="st">" |&gt;</span><span class="sc">\n</span><span class="st">"</span>)))</span>
+<span id="cb9-70"><a href="#cb9-70"></a></span>
+<span id="cb9-71"><a href="#cb9-71"></a><span class="co">;; Quarto mode https://github.com/quarto-dev/quarto-emacs</span></span>
+<span id="cb9-72"><a href="#cb9-72"></a><span class="co">;; By default associated with .qmd files</span></span>
+<span id="cb9-73"><a href="#cb9-73"></a>(<span class="kw">use-package</span> quarto-mode</span>
+<span id="cb9-74"><a href="#cb9-74"></a>         :mode ((<span class="st">"</span><span class="sc">\\</span><span class="st">.Rmd"</span> . poly-quarto-mode))</span>
+<span id="cb9-75"><a href="#cb9-75"></a>         :bind ((<span class="st">"C-c q"</span> . quarto-preview)))</span>
+<span id="cb9-76"><a href="#cb9-76"></a></span>
+<span id="cb9-77"><a href="#cb9-77"></a></span>
+<span id="cb9-78"><a href="#cb9-78"></a><span class="co">;;; Set the width of the buffer automatically from</span></span>
+<span id="cb9-79"><a href="#cb9-79"></a><span class="co">;;; https://stat.ethz.ch/pipermail/ess-help/2009-July/005455.html</span></span>
+<span id="cb9-80"><a href="#cb9-80"></a>(<span class="kw">defun</span><span class="fu"> my-ess-post-run-hook </span>()</span>
+<span id="cb9-81"><a href="#cb9-81"></a>  (ess-execute-screen-options)</span>
+<span id="cb9-82"><a href="#cb9-82"></a>  (local-set-key <span class="st">"\C-cw"</span> 'ess-execute-screen-options))</span>
+<span id="cb9-83"><a href="#cb9-83"></a>(add-hook 'ess-post-run-hook 'my-ess-post-run-hook)</span>
+<span id="cb9-84"><a href="#cb9-84"></a><span class="co">;;; Auto-complete and ESS http://goo.gl/utAi2Z</span></span>
+<span id="cb9-85"><a href="#cb9-85"></a>(<span class="kw">use-package</span> auto-complete)</span>
+<span id="cb9-86"><a href="#cb9-86"></a><span class="co">;; (use-package auto-complete-config)</span></span>
+<span id="cb9-87"><a href="#cb9-87"></a><span class="co">;; (ac-config-default)</span></span>
+<span id="cb9-88"><a href="#cb9-88"></a>(auto-complete-mode)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="themes" class="slide level2 scrollable">
 <h2>Themes</h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource lisp number-lines code-with-copy"><code class="sourceCode commonlisp"><span id="cb9-1"><a href="#cb9-1"></a>(<span class="kw">use-package</span> modus-themes</span>
-<span id="cb9-2"><a href="#cb9-2"></a>         :ensure <span class="kw">t</span>                         <span class="co">; omit this to use the built-in themes</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a>         :init</span>
-<span id="cb9-4"><a href="#cb9-4"></a>         <span class="co">;; Add all your customizations prior to loading the themes</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a>         (<span class="kw">setq</span> modus-themes-italic-constructs <span class="kw">t</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a>           modus-themes-bold-constructs <span class="kw">t</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a>           modus-themes-org-blocks '(tinted-background))</span>
-<span id="cb9-8"><a href="#cb9-8"></a>         :config</span>
-<span id="cb9-9"><a href="#cb9-9"></a>             :bind</span>
-<span id="cb9-10"><a href="#cb9-10"></a>             (<span class="st">"&lt;f12&gt;"</span> . modus-themes-toggle))</span>
-<span id="cb9-11"><a href="#cb9-11"></a></span>
-<span id="cb9-12"><a href="#cb9-12"></a>(modus-themes-select 'modus-vivendi) <span class="co">;; OR modus-operandi</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource lisp number-lines code-with-copy"><code class="sourceCode commonlisp"><span id="cb10-1"><a href="#cb10-1"></a>(<span class="kw">use-package</span> modus-themes</span>
+<span id="cb10-2"><a href="#cb10-2"></a>         :ensure <span class="kw">t</span>                         <span class="co">; omit this to use the built-in themes</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a>         :init</span>
+<span id="cb10-4"><a href="#cb10-4"></a>         <span class="co">;; Add all your customizations prior to loading the themes</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a>         (<span class="kw">setq</span> modus-themes-italic-constructs <span class="kw">t</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a>           modus-themes-bold-constructs <span class="kw">t</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a>           modus-themes-org-blocks '(tinted-background))</span>
+<span id="cb10-8"><a href="#cb10-8"></a>         :config</span>
+<span id="cb10-9"><a href="#cb10-9"></a>             :bind</span>
+<span id="cb10-10"><a href="#cb10-10"></a>             (<span class="st">"&lt;f12&gt;"</span> . modus-themes-toggle))</span>
+<span id="cb10-11"><a href="#cb10-11"></a></span>
+<span id="cb10-12"><a href="#cb10-12"></a>(modus-themes-select 'modus-vivendi) <span class="co">;; OR modus-operandi</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 
 <div class="footer footer-default">
