@@ -289,3 +289,498 @@ Two options that leverage Language Server Protocol
 * [Eglot](https://joaotavora.github.io/eglot/)
 
 Emacs >= 29.0 includes Eglot.
+
+:::: {.scrollable}
+
+## [LSP Mode](https://emacs-lsp.github.io/lsp-mode/)
+
+Not perfect, haven't configured R, org-mode support is a work in progress.
+``` {.lisp}
+;;; LSP CONFIGURATION
+;;; --------------------------------------
+;;; https://gitlab.com/nathanfurnal/dotemacs/-/snippets/2060535
+;;; https://ianyepan.github.io/posts/emacs-ide/
+;; Provides workspaces with file browsing (tree file viewer)
+;; and project management when coupled with `projectile`.
+(use-package treemacs
+	     :ensure t
+	     :defer t
+	     :config
+	     (setq treemacs-no-png-images t
+		   treemacs-width 24)
+	     :bind ("C-c t" . treemacs))
+
+
+;; Provide LSP-mode for python, it requires a language server.
+;; I use `lsp-pyright`. Know that you have to `M-x lsp-restart-workspace`
+;; if you change the virtual environment in an open python buffer.
+(use-package lsp-mode
+	     :ensure t
+	     :defer t
+	     :config
+	     (setq lsp-idle-delay 0.5
+		   lsp-enable-symbol-highlighting t
+		   lsp-pylsp-plugins-pylint-args ["--rcfile=/home/neil/dotfiles/python/.pylintrc"])
+	     ;; (setq lsp-markdown-server-command remark-language-server)
+	     ;; (lsp-register-custom-settings
+	     ;;  ;; pyls enabled/disabled https://github.com/python-lsp/python-lsp-server/blob/develop/CONFIGURATION.md
+	     ;;  '(;; Enabled
+	     ;;    ("pylsp.plugins.jedi_completion.enabled" t t)
+	     ;;    ("pylsp.plugins.jedi_completion.cache_for" '(pandas, numpy, matplotlib))
+	     ;;    ("pylsp.plugins.jedi_hover.enabled" t t)
+	     ;;    ("pylsp.plugins.jedi_references.enabled" t t)
+	     ;;    ("pylsp.plugins.pyls_black.enabled" t t)
+	     ;;    ("pylsp.plugins.pycodestyle.maxLineLength" nil 120)
+	     ;;    ;; ("pylsp.plugins.pydocstyle.enabled" t t)
+	     ;;    ;; ("pylsp.plugins.pydocstyle.convention" nil 'numpy)
+	     ;;    ("pylsp.plugins.pylint.enabled" t t)
+	     ;;    ;; Disabled (duplicated by flake8)
+	     ;;    ("pylsp.plugins.pycodestyle.enabled" nil t)
+	     ;;    ("pylsp.plugins.mccabe.enabled" nil t)
+	     ;;    ("pylsp.plugins.pyflakes.enabled" nil t)))
+	     :commands (lsp lsp-deferred)
+	     :init (setq lsp-keymap-prefix "C-c l"
+			 lsp-bash-highlight-parsing-errors t)
+	     :hook ((python-mode . lsp)
+		    (bash-mode . lsp)
+		    (dockerfile-mode . lsp)
+		    (groovy-mode . lsp)
+		    (html-mode . lsp)
+		    (latex-mode . lsp)
+		    (markdown-mode . lsp)
+		    (gfm-mode . lsp)
+		    (org-mode . lsp)
+		    (R-mode . lsp)
+		    (ess-r-mode . lsp)
+		    (sh-mode . lsp)
+		    (terraform-mode . lsp)))
+
+;; Provides completion, with the proper backend
+;; it will provide Python completion.
+(use-package company
+	     :ensure t
+	     :defer t
+	     :diminish
+	     :config
+	     (setq company-dabbrev-other-buffers t
+		   company-dabbrev-code-other-buffers t)
+	     :hook ((text-mode . company-mode)
+		    (prog-mode . company-mode)))
+
+;; Provides visual help in the buffer
+;; For example definitions on hover.
+;; The `imenu` lets me browse definitions quickly.
+;; https://github.com/emacs-lsp/lsp-ui
+(use-package lsp-ui
+	     :ensure t
+	     :defer t
+	     :config
+	     (setq lsp-ui-doc-enable t
+		   lsp-ui-doc-delay 1
+		   lsp-ui-doc-header nil
+		   sp-ui-doc-include-signature t
+		   lsp-ui-doc-border (face-foreground 'default)
+		   lsp-ui-doc-use-childframe t
+		   lsp-ui-doc-position 'top
+		   lsp-ui-doc-include-signature t
+		   lsp-ui-doc-use-childframe t
+		   lsp-ui-sideline-enable nil
+		   lsp-ui-flycheck-enable t
+		   lsp-ui-flycheck-list-position 'right
+		   lsp-ui-flycheck-live-reporting t
+		   lsp-ui-peek-enable t
+		   lsp-ui-peek-list-width 60
+		   lsp-ui-peek-peek-height 25
+		   lsp-ui-sideline-enable t
+		   lsp-ui-sideline-show-code-actions t
+		   lsp-ui-sideline-show-hover t
+		   lsp-ui-sideline-delay 3)
+	     :hook (lsp-mode . lsp-ui-mode)
+	     :bind (:map lsp-ui-mode-map
+			 ("C-c i" . lsp-ui-imenu)))
+
+;; LSP Treemacs
+(use-package lsp-treemacs
+	     :ensure t
+	     :defer t
+	     :config
+	     (setq lsp-treemacs-sync-mode 1))
+
+;; Integration with the debug server
+(use-package dap-mode
+	     :ensure t
+	     :defer t
+	     :after lsp-mode
+	     :config
+	     (dap-auto-configure-mode))
+
+
+;; Required to hide the modeline
+(use-package hide-mode-line
+	     :ensure t
+	     :defer t)
+
+
+;; Language servers
+;; Read the docs for the different variables set in the config.
+;; Python - pyright
+;; (use-package lsp-pyright
+;;   :ensure t
+;;   :defer t
+;;   :config
+;;   (setq lsp-clients-python-library-directories '("/usr/" "~/miniconda3/pkgs"))
+;;   (setq lsp-pyright-disable-language-service nil
+;; 	lsp-pyright-disable-organize-imports nil
+;; 	lsp-pyright-auto-import-completions t
+;; 	lsp-pyright-use-library-code-for-types t
+;; 	;; lsp-pyright-typeshed-paths
+;; 	;; lsp-pyright-diagnostic-mode
+;; 	lsp-pyright-typechecking-mode "basic"
+;; 	lsp-pyright-log-level 1
+;; 	;; lsp-pyright-auto-search-paths
+;; 	;; lsp-pyright-extra-paths
+;; 	lsp-pyright-venv-path "~/miniconda3/envs")
+;;   :hook ((python-mode . (lambda ()
+;;                           (require 'lsp-pyright) (lsp-deferred)))))
+
+;; Python - Jedi
+;; LSP Module : https://github.com/fredcamps/lsp-jedi
+;; Server     : https://github.com/pappasam/jedi-language-server
+(use-package lsp-jedi
+	     :ensure t
+	     :config
+	     (with-eval-after-load "lsp-mode"
+	       (add-to-list 'lsp-disabled-clients 'pyls)
+	       (add-to-list 'lsp-enabled-clients 'jedi)))
+;; :init
+;; (setq lsp-jedi-workspace-extra-paths
+;;       (vconcat lsp-jedi-workspace-extra-paths ["/home/neil/.virtualenvs/python3_10/lib/site-packages"])))
+
+;; Python pyls
+;; https://www.mattduck.com/lsp-python-getting-started.html
+
+;; Python - Sourcery
+;; https://github.com/sourcery-ai/sourcery/wiki/Emacs
+;; (lsp-register-client
+;;  (make-lsp-client :new-connection (lsp-stdio-connection '("sourcery" "lsp"))
+;;                   :initialization-options '((token . "user_ajagq3NtzYEZHCChHXS1bXvaFFZpOb3f8AC666z0J_cCknj8OLZsDR31tK0")
+;;                                             (extension_version . "emacs-lsp")
+;;                                             (editor_version . "emacs"))
+;;                   :activation-fn (lsp-activate-on "python")
+;;                   :server-id 'sourcery
+;;                   :add-on? t
+;;                   :priority 2))
+;; LTex
+;; LSP Module : https://github.com/emacs-languagetool/lsp-ltex
+;; Server     : https://valentjn.github.io/ltex/
+(use-package lsp-ltex
+	     :ensure t
+	     :hook (text-mode . (lambda ()
+				  (require 'lsp-ltex)
+				  (lsp))))  ; or lsp-deferred
+(use-package lsp-latex
+	     :ensure t
+	     :hook (text-mode . (lambda ()
+				  (require 'lsp-latex)
+				  (lsp))))
+;; Julia
+;; LSP Module : https://github.com/non-Jedi/lsp-julia
+;; Server     :
+(use-package lsp-julia
+	     :ensure t
+	     :config
+	     (setq lsp-julia-default-environment "~/.julia/environments/v1.5"))
+
+;; Markdown
+;; LSP Module : https://emacs-lsp.github.io/lsp-mode/page/lsp-markdown/
+;; Server     : https://github.com/remarkjs/remark-language-server
+
+;; Bash
+;; https://github.com/bash-lsp/bash-language-server
+
+;; R
+;; https://emacs-lsp.github.io/lsp-mode/page/lsp-r/
+;; (use-package lsp-r
+;;   :ensure t)
+
+;; Cleanup LSP sessions https://arjenwiersma.nl/posts/2022-11-07-cleaning-up-after-lsp/index.html
+(defun nds/cleanup-lsp ()
+  "Remove all the workspace folders from LSP"
+  (interactive)
+  (let ((folders (lsp-session-folders (lsp-session))))
+    (while folders
+      (lsp-workspace-folders-remove (car folders))
+      (setq folders (cdr folders)))))
+
+```
+
+::::
+
+:::: {.scrollable}
+
+## [Eglot](https://joaotavora.github.io/eglot/)
+
+Experimental, basic stuff works, not yet on a par with LSP Mode.
+
+``` {.lisp}
+;;; Eglot settings
+;;;
+;;; https://joaotavora.github.io/eglot/ / https://github.com/joaotavora/eglot
+;;;
+;;; Language Servers
+;;; ----------------
+;;;
+;;; Bash https://github.com/bash-lsp/bash-language-server
+;;; Dockerfile https://github.com/rcjsuen/dockerfile-language-server-nodejs
+;;; JSON https://github.com/hrsh7th/vscode-langservers-extracted
+;;; Markdown https://github.com/artempyanykh/marksman
+;;; Python https://github.com/pappasam/jedi-language-server
+;;; R https://cran.r-project.org/package=languageserver
+;;; Rust https://github.com/rust-analyzer/rust-analyzer
+;;; Tex/LaTeX https://github.com/astoff/digestif
+;;; YAML https://github.com/redhat-developer/yaml-language-server
+;;;
+;;; Org-mode isn't yet supported but see https://github.com/joaotavora/eglot/issues/523
+
+
+(use-package eglot
+	     :ensure t
+	     :defer t
+	     :config
+	     (define-key global-map (kbd "C-c E") (make-sparse-keymap))
+	     (add-to-list 'eglot-server-programs '(python-mode . ("jedi-language-server")))
+	     :init
+	     (setq lsp-keymap-prefix "C-c l"
+		   lsp-bash-highlight-parsing-errors t
+		   lsp-pylsp-plugins-pylint-args ["--rcfile=/home/neil/dotfiles/python/.pylintrc"])
+	     :hook
+	     ((bash-mode . eglot-ensure)
+	      (ess-r-mode . eglot-ensure)
+	      (html-mode . eglot-ensure)
+	      (latex-mode . eglot-ensure)
+	      (markdown-mode . eglot-ensure)
+	      (python-mode . eglot-ensure)
+	      (R-mode . eglot-ensure)
+	      (rust-mode . eglot-ensure)
+	      (sh-mode . eglot-ensure))
+             :bind
+             (("C-c e l" . eglot)
+              ("C-c e c" . eglot-reconnect)
+	      ("C-c e s" . eglot-shutdown)
+              ("C-c e d" . flymake-show-buffer-diagnostics)
+              ("C-c e f f" . eglot-format)
+              ("C-c e f b" . eglot-format-buffer)
+              ("C-c e r r" . eglot-rename))
+             )
+
+```
+::::
+
+:::: {.scrollable}
+
+## [Centaur Tabs](https://github.com/ema2159/centaur-tabs)
+
+
+
+``` {.lisp}
+;; CENTAUR TABS CONFIGURATION
+;; --------------------------------------
+;; https://github.com/ema2159/centaur-tabs
+(use-package centaur-tabs
+	     :demand
+	     :config
+	     (centaur-tabs-mode t)
+	     :init
+	     (setq centaur-tabs-enable-key-bindings t
+	           centaur-tabs-style "wave"
+	           centaur-tabs-set-icons t
+	           centaur-tabs-set-bar 'under
+	           x-underline-at-descent-line t
+	           centaur-tabs-cycle-scope 'default
+		   centaur-tabs-set-modified-marker t
+		   centaur-tabs-modified-marker "⏺")
+	     :bind
+	     ("C-<prior>" . centaur-tabs-backward)
+	     ("C-<next>" . centaur-tabs-forward)
+             )
+
+
+(defun centaur-tabs-buffer-groups ()
+  "`centaur-tabs-buffer-groups' control buffers' group rules.
+;;     Group centaur-tabs with mode if buffer is derived from `eshell-mode' `emacs-lisp-mode' `dired-mode' `org-mode' `magit-mode'.
+;;     All buffer name start with * will group to \"Emacs\".
+;;     Other buffer group by `centaur-tabs-get-group-name' with project name."
+  (list
+   (cond
+    ;;; Attempts to group mastodon buffers, not working 2023-01-02
+    ;; ((string-equal "*mastodon" (substring (buffer-name) 0 8))
+    ;;  "Mastodon")
+    ((or (string-equal "*" (substring (buffer-name) 0 1))
+	 (memq major-mode '(magit-process-mode
+			    magit-status-mode
+			    magit-diff-mode
+			    magit-log-mode
+			    magit-file-mode
+			    magit-blob-mode
+ 			    magit-blame-mode)))
+     "Emacs")
+    ;; ((derived-mode-p 'prog-mode) "Editing")
+    ;; ((memq major-mode '(python-mode)) "Python")
+    ;;; Following attempts to split magit buffers out to their own group, not working 2023-01-02
+    ;; ((string-equal "*" (substring (buffer-name) 0 1))
+    ;;  "Emacs")
+    ;; ((string-equal "magit" (substring (buffer-name) 0 4)) "Magit")
+    ;; ((memq major-mode '(magit-process-mode
+    ;; 		            magit-status-mode
+    ;; 		            magit-diff-mode
+    ;; 		            magit-log-mode
+    ;; 		            magit-file-mode
+    ;; 		            magit-blob-mode
+    ;; 		            magit-blame-mode))
+    ;;  "Magit")
+    ;; ((derived-mode-p 'dired-mode) "Dired")
+    ((memq major-mode '(helpful-mode
+                        help-mode))
+     "Help")
+    ((memq major-mode '(org-mode
+			org-agenda-clockreport-mode
+			org-src-mode
+			org-agenda-mode
+			org-beamer-mode
+			org-indent-mode
+			org-bullets-mode
+			org-cdlatex-mode
+			org-agenda-log-mode
+			diary-mode))
+     "OrgMode")
+    (t
+     (centaur-tabs-get-group-name (current-buffer))))))
+
+(defun centaur-tabs-hide-tab (x)
+  "Do no to show buffer X in tabs."
+  (let ((name (format "%s" x)))
+    (or
+     ;; Current window is not dedicated window.
+     (window-dedicated-p (selected-window))
+     ;; Buffer name not match below blacklist.
+     (string-prefix-p "*epc" name)
+     (string-prefix-p "*helm" name)
+     (string-prefix-p "*Helm" name)
+     (string-prefix-p "*Compile-Log*" name)
+     (string-prefix-p "*lsp" name)
+     (string-prefix-p "*company" name)
+     (string-prefix-p "*Flycheck" name)
+     (string-prefix-p "*tramp" name)
+     (string-prefix-p " *Mini" name)
+     (string-prefix-p "*help" name)
+     (string-prefix-p "*straight" name)
+     (string-prefix-p "*temp" name)
+     (string-prefix-p "*Help" name)
+     (string-prefix-p "*mybuf" name)
+     ;; Is not magit buffer.
+     (and (string-prefix-p "magit" name)
+	  (not (file-name-extension name)))
+     )))
+```
+
+::::
+
+:::: {.scrollable}
+
+## [Emacs Speaks Statistics](https://ess.r-project.org)
+
+Been around for a long time (>20 years). Includes [quarto-mode](https://github.com/quarto-dev/quarto-emacs).
+
+````{.lisp}
+;; ESS CONFIGURATION
+;; --------------------------------------
+;;
+;; Useful pages to read on configuration of ESS and sometimes LSP mode
+;;
+;; ESS
+;; https://weikaichen.gitee.io/notes/emacs-ess-r/
+;;
+;; + lsp-mode
+;; https://github.com/emacs-ess/ESS/issues/809
+;; https://github.com/emacs-lsp/lsp-mode/issues/1383#issue-560006302
+;;
+;; Pipes and assignment customisation
+;;
+;; https://emacs.stackexchange.com/a/8055
+;; Notes on underscore for assignment
+;;
+;; https://emacs.stackexchange.com/questions/48134/ess-smart-underscore-does-not-work-in-emacs25)
+;; https://github.com/emacs-ess/ESS/issues/809
+;; https://chainsawriot.com/postmannheim/2022/12/24/aoe24.html
+;; https://emacs.stackexchange.com/a/65148
+;; https://github.com/emacs-ess/ESS/issues/809#issuecomment-453538386
+;;
+;; Plots in Emacs buffers
+;; https://emacs.stackexchange.com/questions/2292/ess-plot-directly-to-an-emacs-buffer
+;;
+;; Better still plots in the browser
+;;
+;; https://www.youtube.com/watch?v=uxyhmhRVOfw
+(use-package ess
+	     :ensure t
+	     ;; :defer 1
+             ;;     :requires ess-r-mode
+             ;;     ess-r-package
+	     :init
+	     :mode (("/R/.*\\.q\\'"       . R-mode)
+		    ("\\.[rR]\\'"         . R-mode)
+		    ("\\.[rR]profile\\'"  . R-mode)
+		    ("NAMESPACE\\'"       . R-mode)
+		    ("CITATION\\'"        . R-mode)
+		    ("\\.[Rr]out"         . R-transcript-mode)
+		    ("\\.Rmd\\'"          . Rd-mode)
+		    ("\\.Rd\\'"           . Rd-mode))
+	     :interpreter (("R" . R-mode)
+			   ("R" . R-transcript-mode)
+			   ("R" . Rd-mode))
+	     :config
+             (require 'ess-r-mode)
+             (require 'ess-r-package)
+	     (setq ess-r-backend 'lsp)
+	     (setq comint-input-ring-size 1000)
+	     (setq ess-indent-offset 2)
+	     (setq ess-eval-visibly-p nil)
+             (setq ess-startup-directory nil)
+	     (setq ess-ask-for-ess-directory nil)
+	     (setq ess-togggle-underscore nil)
+	     (setq ess-eval-visibly 'nowait)
+             (setq ess-use-tracebug nil)
+	     :hook
+	     (ess-mode . company-mode)
+	     (inferior-ess-mode . company-mode)
+             :bind
+             (:map ess-r-mode-map
+		   ("_" . 'ess-insert-assign)  ;;
+		   ("C-q" . 'ess-eval-region-or-line-and-step)
+		   ("C-|" . " |>\n"))
+             (:map inferior-ess-r-mode-map
+		   ("_" . 'ess-insert-assign)
+		   ("C-|" . " |>\n")))
+
+;; Quarto mode https://github.com/quarto-dev/quarto-emacs
+;; By default associated with .qmd files
+(use-package quarto-mode
+	     :mode (("\\.Rmd" . poly-quarto-mode))
+	     :bind (("C-c q" . quarto-preview)))
+
+
+;;; Set the width of the buffer automatically from
+;;; https://stat.ethz.ch/pipermail/ess-help/2009-July/005455.html
+(defun my-ess-post-run-hook ()
+  (ess-execute-screen-options)
+  (local-set-key "\C-cw" 'ess-execute-screen-options))
+(add-hook 'ess-post-run-hook 'my-ess-post-run-hook)
+;;; Auto-complete and ESS http://goo.gl/utAi2Z
+(use-package auto-complete)
+;; (use-package auto-complete-config)
+;; (ac-config-default)
+(auto-complete-mode)
+
+````
+
+::::
