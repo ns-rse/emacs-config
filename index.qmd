@@ -787,6 +787,8 @@ Been around for a long time (>20 years). Includes [quarto-mode](https://github.c
 
 :::: {.scrollable}
 
+## Themes
+
 ``` {.lisp}
 (use-package modus-themes
 	     :ensure t                         ; omit this to use the built-in themes
