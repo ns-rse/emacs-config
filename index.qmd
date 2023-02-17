@@ -784,3 +784,23 @@ Been around for a long time (>20 years). Includes [quarto-mode](https://github.c
 ````
 
 ::::
+
+:::: {.scrollable}
+
+``` {.lisp}
+(use-package modus-themes
+	     :ensure t                         ; omit this to use the built-in themes
+	     :init
+	     ;; Add all your customizations prior to loading the themes
+	     (setq modus-themes-italic-constructs t
+		   modus-themes-bold-constructs t
+		   modus-themes-org-blocks '(tinted-background))
+	     :config
+             :bind
+             ("<f12>" . modus-themes-toggle))
+
+(modus-themes-select 'modus-vivendi) ;; OR modus-operandi
+
+```
+
+::::
