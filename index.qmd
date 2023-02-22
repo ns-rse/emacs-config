@@ -240,7 +240,14 @@ In addition to useful to configure various aspects of [Python](https://www.pytho
 			 ("C-c p l" . pylint)
 			 ("C-c p n" . numpydoc-generate)
 			 ("C-c p b" . blacken-buffer)
-			 ("C-c p v" . pyvenv-workon)))
+			 ("C-c p v" . pyvenv-workon)
+   			 ("C-c p T c" . python-skeleton-class)
+			 ("C-c p T d" . python-skeleton-def)
+			 ("C-c p T f" . python-skeleton-for)
+			 ("C-c p T i" . python-skeleton-if)
+			 ("C-c p T m" . python-skeleton-import)
+			 ("C-c p T t" . python-skeleton-try)
+			 ("C-c p T w" . python-skeleton-while)))
 
 ;;; https://github.com/wbolster/emacs-python-pytest
 (use-package python-pytest
