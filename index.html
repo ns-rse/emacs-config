@@ -609,42 +609,49 @@ Neil Shephard
 <span id="cb4-68"><a href="#cb4-68"></a>             (<span class="st">"C-c p l"</span> . pylint)</span>
 <span id="cb4-69"><a href="#cb4-69"></a>             (<span class="st">"C-c p n"</span> . numpydoc-generate)</span>
 <span id="cb4-70"><a href="#cb4-70"></a>             (<span class="st">"C-c p b"</span> . blacken-buffer)</span>
-<span id="cb4-71"><a href="#cb4-71"></a>             (<span class="st">"C-c p v"</span> . pyvenv-workon)))</span>
-<span id="cb4-72"><a href="#cb4-72"></a></span>
-<span id="cb4-73"><a href="#cb4-73"></a><span class="co">;;; https://github.com/wbolster/emacs-python-pytest</span></span>
-<span id="cb4-74"><a href="#cb4-74"></a>(<span class="kw">use-package</span> python-pytest</span>
-<span id="cb4-75"><a href="#cb4-75"></a>         :after (pyvenv)</span>
-<span id="cb4-76"><a href="#cb4-76"></a>         :ensure <span class="kw">t</span></span>
-<span id="cb4-77"><a href="#cb4-77"></a>         :defer <span class="dv">2</span>)</span>
-<span id="cb4-78"><a href="#cb4-78"></a></span>
-<span id="cb4-79"><a href="#cb4-79"></a><span class="co">;; https://github.com/pythonic-emacs/blacken</span></span>
-<span id="cb4-80"><a href="#cb4-80"></a>(<span class="kw">use-package</span> blacken</span>
-<span id="cb4-81"><a href="#cb4-81"></a>         :ensure <span class="kw">t</span></span>
-<span id="cb4-82"><a href="#cb4-82"></a>         :defer <span class="dv">3</span></span>
-<span id="cb4-83"><a href="#cb4-83"></a>         :custom</span>
-<span id="cb4-84"><a href="#cb4-84"></a>         (blacken-line-length <span class="dv">120</span>)</span>
-<span id="cb4-85"><a href="#cb4-85"></a>         :hook (python-mode . blacken-mode))</span>
-<span id="cb4-86"><a href="#cb4-86"></a></span>
-<span id="cb4-87"><a href="#cb4-87"></a><span class="co">;; https://github.com/erickgnavar/flymake-ruff</span></span>
-<span id="cb4-88"><a href="#cb4-88"></a>(<span class="kw">use-package</span> flymake-ruff</span>
-<span id="cb4-89"><a href="#cb4-89"></a>         :ensure <span class="kw">t</span></span>
-<span id="cb4-90"><a href="#cb4-90"></a>         :defer <span class="dv">3</span>)</span>
-<span id="cb4-91"><a href="#cb4-91"></a></span>
-<span id="cb4-92"><a href="#cb4-92"></a><span class="co">;; https://github.com/douglasdavis/numpydoc.el</span></span>
-<span id="cb4-93"><a href="#cb4-93"></a>(<span class="kw">use-package</span> numpydoc</span>
-<span id="cb4-94"><a href="#cb4-94"></a>         :ensure <span class="kw">t</span></span>
-<span id="cb4-95"><a href="#cb4-95"></a>         :defer <span class="kw">t</span></span>
-<span id="cb4-96"><a href="#cb4-96"></a>         :after lsp</span>
-<span id="cb4-97"><a href="#cb4-97"></a>         :custom</span>
-<span id="cb4-98"><a href="#cb4-98"></a>         (numpydoc-prompt-for-input <span class="kw">t</span>)</span>
-<span id="cb4-99"><a href="#cb4-99"></a>         (numpydoc-insert-examples-block <span class="kw">nil</span>)</span>
-<span id="cb4-100"><a href="#cb4-100"></a>         :bind (:map python-mode-map</span>
-<span id="cb4-101"><a href="#cb4-101"></a>             (<span class="st">"C-c p n"</span> . numpydoc-generate)))</span>
-<span id="cb4-102"><a href="#cb4-102"></a></span>
-<span id="cb4-103"><a href="#cb4-103"></a><span class="co">;; https://github.com/millejoh/emacs-ipython-notebook</span></span>
-<span id="cb4-104"><a href="#cb4-104"></a>(<span class="kw">use-package</span> ein</span>
-<span id="cb4-105"><a href="#cb4-105"></a>         :ensure <span class="kw">t</span></span>
-<span id="cb4-106"><a href="#cb4-106"></a>         :defer <span class="kw">t</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-71"><a href="#cb4-71"></a>             (<span class="st">"C-c p v"</span> . pyvenv-workon)</span>
+<span id="cb4-72"><a href="#cb4-72"></a>             (<span class="st">"C-c p T c"</span> . python-skeleton-class)</span>
+<span id="cb4-73"><a href="#cb4-73"></a>             (<span class="st">"C-c p T d"</span> . python-skeleton-def)</span>
+<span id="cb4-74"><a href="#cb4-74"></a>             (<span class="st">"C-c p T f"</span> . python-skeleton-for)</span>
+<span id="cb4-75"><a href="#cb4-75"></a>             (<span class="st">"C-c p T i"</span> . python-skeleton-if)</span>
+<span id="cb4-76"><a href="#cb4-76"></a>             (<span class="st">"C-c p T m"</span> . python-skeleton-import)</span>
+<span id="cb4-77"><a href="#cb4-77"></a>             (<span class="st">"C-c p T t"</span> . python-skeleton-try)</span>
+<span id="cb4-78"><a href="#cb4-78"></a>             (<span class="st">"C-c p T w"</span> . python-skeleton-while)))</span>
+<span id="cb4-79"><a href="#cb4-79"></a></span>
+<span id="cb4-80"><a href="#cb4-80"></a><span class="co">;;; https://github.com/wbolster/emacs-python-pytest</span></span>
+<span id="cb4-81"><a href="#cb4-81"></a>(<span class="kw">use-package</span> python-pytest</span>
+<span id="cb4-82"><a href="#cb4-82"></a>         :after (pyvenv)</span>
+<span id="cb4-83"><a href="#cb4-83"></a>         :ensure <span class="kw">t</span></span>
+<span id="cb4-84"><a href="#cb4-84"></a>         :defer <span class="dv">2</span>)</span>
+<span id="cb4-85"><a href="#cb4-85"></a></span>
+<span id="cb4-86"><a href="#cb4-86"></a><span class="co">;; https://github.com/pythonic-emacs/blacken</span></span>
+<span id="cb4-87"><a href="#cb4-87"></a>(<span class="kw">use-package</span> blacken</span>
+<span id="cb4-88"><a href="#cb4-88"></a>         :ensure <span class="kw">t</span></span>
+<span id="cb4-89"><a href="#cb4-89"></a>         :defer <span class="dv">3</span></span>
+<span id="cb4-90"><a href="#cb4-90"></a>         :custom</span>
+<span id="cb4-91"><a href="#cb4-91"></a>         (blacken-line-length <span class="dv">120</span>)</span>
+<span id="cb4-92"><a href="#cb4-92"></a>         :hook (python-mode . blacken-mode))</span>
+<span id="cb4-93"><a href="#cb4-93"></a></span>
+<span id="cb4-94"><a href="#cb4-94"></a><span class="co">;; https://github.com/erickgnavar/flymake-ruff</span></span>
+<span id="cb4-95"><a href="#cb4-95"></a>(<span class="kw">use-package</span> flymake-ruff</span>
+<span id="cb4-96"><a href="#cb4-96"></a>         :ensure <span class="kw">t</span></span>
+<span id="cb4-97"><a href="#cb4-97"></a>         :defer <span class="dv">3</span>)</span>
+<span id="cb4-98"><a href="#cb4-98"></a></span>
+<span id="cb4-99"><a href="#cb4-99"></a><span class="co">;; https://github.com/douglasdavis/numpydoc.el</span></span>
+<span id="cb4-100"><a href="#cb4-100"></a>(<span class="kw">use-package</span> numpydoc</span>
+<span id="cb4-101"><a href="#cb4-101"></a>         :ensure <span class="kw">t</span></span>
+<span id="cb4-102"><a href="#cb4-102"></a>         :defer <span class="kw">t</span></span>
+<span id="cb4-103"><a href="#cb4-103"></a>         :after lsp</span>
+<span id="cb4-104"><a href="#cb4-104"></a>         :custom</span>
+<span id="cb4-105"><a href="#cb4-105"></a>         (numpydoc-prompt-for-input <span class="kw">t</span>)</span>
+<span id="cb4-106"><a href="#cb4-106"></a>         (numpydoc-insert-examples-block <span class="kw">nil</span>)</span>
+<span id="cb4-107"><a href="#cb4-107"></a>         :bind (:map python-mode-map</span>
+<span id="cb4-108"><a href="#cb4-108"></a>             (<span class="st">"C-c p n"</span> . numpydoc-generate)))</span>
+<span id="cb4-109"><a href="#cb4-109"></a></span>
+<span id="cb4-110"><a href="#cb4-110"></a><span class="co">;; https://github.com/millejoh/emacs-ipython-notebook</span></span>
+<span id="cb4-111"><a href="#cb4-111"></a>(<span class="kw">use-package</span> ein</span>
+<span id="cb4-112"><a href="#cb4-112"></a>         :ensure <span class="kw">t</span></span>
+<span id="cb4-113"><a href="#cb4-113"></a>         :defer <span class="kw">t</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="treesitter" class="slide level2 scrollable">
 <h2>Treesitter</h2>
